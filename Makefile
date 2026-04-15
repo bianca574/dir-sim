@@ -1,16 +1,25 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -Iinclude
 
-SRC = src/main.c
+NAME = program
+
+SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 
-program: $(OBJ)
-	$(CC) $(CFLAGS) -o program $(OBJ)
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
 
 fclean: clean
-	rm -f program
+	rm -f $(NAME)
 
-re: fclean program
+re: fclean all
+
+.PHONY: all clean fclean re
