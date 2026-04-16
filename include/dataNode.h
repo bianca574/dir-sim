@@ -1,0 +1,30 @@
+#ifndef DATANODE_H
+#define DATANODE_H
+#include <stdbool.h>
+
+struct noeud;
+struct liste_noeud;
+
+struct noeud
+{
+    bool est_dossier;
+    char nom[100];
+    struct noeud *pere;
+    struct noeud *racine;
+    struct liste_noeud *fils;
+};
+
+struct liste_noeud
+{
+    struct noeud *no;
+    struct liste_noeud *succ;
+};
+
+typedef struct noeud noeud;
+typedef struct liste_noeud liste_noeud;
+
+// variables globales
+//extern noeud noeudRacine;
+extern noeud *noeudCourant;
+
+#endif
