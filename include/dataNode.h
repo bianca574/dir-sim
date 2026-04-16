@@ -24,7 +24,7 @@ typedef struct noeud noeud;
 typedef struct liste_noeud liste_noeud;
 
 // variables globales
-extern noeud noeudRacine;
+//extern noeud noeudRacine;
 extern noeud *noeudCourant;
 
 #endif
