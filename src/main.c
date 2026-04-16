@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "premiereCommande.h"
 #include <stdbool.h>
+
+
+#include "commandesAffiche.h"
+#include "commandesAjoutSuppression.h"
+#include "commandesParcours.h"
+#include "utile.h"
 
 noeud *noeudCourant = NULL;
 
-void init()
-{
+void init(){
     noeudCourant = malloc(sizeof(noeud));
     if (noeudCourant == NULL)
     {
@@ -25,7 +29,7 @@ int main()
     printf("ok\n");
     init();
     ls();
-    mkdir("Test");
+    mkdir("Test2");
     ls();
 
     return 0;
