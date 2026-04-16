@@ -2,5 +2,12 @@
 
 
 
-##  Compiler le projet
-make program 
+##  Compiler et afficher le projet
+
+```bash
+make program && ./program
+```
+Pour réinitialiser :
+```bash
+make clear && make program && ./program
+```
