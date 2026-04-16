@@ -24,12 +24,18 @@ void init(){
     noeudCourant->fils = NULL;
 }
 
-int main()
-{
-    printf("ok\n");
+int main(){
     init();
+    printf("Début :\n");
     ls();
+    
+    printf("Ajout d'un dossier:\n");
     mkdir("Test2");
+    ls();
+
+    printf("Ajout d'un fichier:\n");
+    touch("mon fichier");
+    touch("");
     ls();
 
     return 0;

@@ -9,5 +9,5 @@ make program && ./program
 ```
 Pour réinitialiser :
 ```bash
-make clear && make program && ./program
+make clean && make program && ./program
 ```

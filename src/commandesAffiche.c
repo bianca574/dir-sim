@@ -13,3 +13,7 @@ void ls(){
         copie = copie->succ;
     }
 }
+
+void pwd(){
+
+}
