@@ -29,13 +29,16 @@ int main(){
     printf("Début :\n");
     ls();
     
-    printf("Ajout d'un dossier:\n");
+    printf("\nAjout d'un dossier:\n");
     mkdir("Test2");
     ls();
 
-    printf("Ajout d'un fichier:\n");
+    printf("\nAjout d'un fichier:\n");
     touch("mon fichier");
-    touch("");
+    // pour tester si touch fonctionne :
+    //touch("Test2");
+    touch("f2");
+    mkdir("d2");
     ls();
 
     return 0;
