@@ -11,3 +11,9 @@ Pour réinitialiser :
 ```bash
 make clean && make program && ./program
 ```
+
+## Valgrind
+
+```bash
+valgrind --leak-check=full
+```
