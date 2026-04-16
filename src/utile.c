@@ -15,8 +15,7 @@ void ajouterFilsANoeudCourant(noeud *nouveauFils){
     }
     else{
         liste_noeud *copie = noeudCourant->fils;
-        while (copie->succ != NULL)
-        {
+        while (copie->succ != NULL){
             copie = copie->succ;
         }
         copie->succ = malloc(sizeof(liste_noeud));

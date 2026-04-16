@@ -2,5 +2,18 @@
 
 
 
-##  Compiler le projet
-make program 
+##  Compiler et afficher le projet
+
+```bash
+make program && ./program
+```
+Pour réinitialiser :
+```bash
+make clean && make program && ./program
+```
+
+## Valgrind
+
+```bash
+valgrind --leak-check=full
+```
