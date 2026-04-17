@@ -38,11 +38,19 @@ int main()
     cd("Cours");
     mkdir("ProjetC");
     mkdir("Anglais");
+    
 
     cd ("..");
     cd ("Td");
     touch("td1");
     touch("td2");
+    
+    cd ("../Cours/ProjetC");
+    mkdir("ok");
+    cd("ok");
+    printf("pwd\n");
+    
+    pwd();
     
 
     
