@@ -4,6 +4,6 @@
 #include "dataNode.h"
 
 void mkdir(const char *nom);
-void touch(const char *nom );
+void touch(const char *nom);
 
 #endif

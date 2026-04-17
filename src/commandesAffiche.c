@@ -6,14 +6,16 @@
 #include "dataNode.h"
 #include "commandesAffiche.h"
 
-void ls(){
+void ls()
+{
     liste_noeud *copie = noeudCourant->fils;
-    while (copie != NULL){
+    while (copie != NULL)
+    {
         printf("%s \n", copie->no->nom);
         copie = copie->succ;
     }
 }
 
-void pwd(){
-
+void pwd()
+{
 }

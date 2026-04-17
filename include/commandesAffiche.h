@@ -1,4 +1,4 @@
 #include "dataNode.h"
 
-void ls() ;
+void ls();
 void pwd();
