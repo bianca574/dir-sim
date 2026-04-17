@@ -5,5 +5,6 @@
 
 void ajouterFilsANoeudCourant(noeud *nouveauFils);
 void free_noeud(noeud *noeud);
+noeud *trouver_noeud(const char *chem);
 
 #endif

@@ -79,3 +79,65 @@ void touch(const char *nom)
 
     ajouterFilsANoeudCourant(nouveaufichier);
 }
+
+void rm(const char *chem)
+{
+    if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
+    {
+        printf("Impossible de supprimer les dossiers/fichiers indiqués.\n");
+        exit(1);
+    }
+
+    noeud *cible = trouver_noeud(chem);
+
+    if (cible == NULL)
+    {
+        printf("Erreur : le chemin n'existe pas.\n");
+        exit(1);
+    }
+    noeud *temp = noeudCourant;
+
+    bool stop = false;
+
+    while (!stop)
+    {
+        if (temp == cible)
+        {
+            printf("Impossible de supprimer les dossiers/fichiers indiqués.\n");
+            exit(1);
+        }
+        if (temp == temp->pere)
+        {
+            stop = true;
+        }
+        else
+        {
+            temp = temp->pere;
+        }
+    }
+    noeud *p = cible->pere;
+
+    if (p->fils->no == cible)
+    {
+        liste_noeud *a_supprimer = p->fils;
+        p->fils = p->fils->succ;
+        free(a_supprimer);
+    }
+    else
+    {
+        liste_noeud *courant = p->fils;
+        liste_noeud *precedent = NULL;
+
+        while (courant != NULL && courant->no != cible)
+        {
+            precedent = courant;
+            courant = courant->succ;
+        }
+        if (courant != NULL)
+        {
+            precedent->succ = courant->succ;
+            free(courant);
+        }
+    }
+    free_noeud(cible);
+}

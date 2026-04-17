@@ -4,6 +4,8 @@
 #include "dataNode.h"
 #include <stdbool.h>
 
+#include "utile.h"
+
 #include "commandesParcours.h"
 
 void cd(const char *chem)
@@ -13,62 +15,18 @@ void cd(const char *chem)
         noeudCourant = noeudCourant->racine;
         return;
     }
-    char *copie_chem = malloc((strlen(chem) + 1) * sizeof(char));
+    noeud *cible = trouver_noeud(chem);
 
-    if (copie_chem == NULL)
+    if (cible == NULL)
     {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
-        exit(1);
+        printf("Erreur : le dossier n'existe pas.\n");
+        return;
     }
 
-    strcpy(copie_chem, chem);
-
-    noeud *actuel;
-
-    if (chem[0] == '/')
+    if (!cible->est_dossier)
     {
-        actuel = noeudCourant->racine;
+        printf("Erreur : %s n'est pas un dossier.\n", chem);
+        return;
     }
-    else
-    {
-        actuel = noeudCourant;
-    }
-
-    char *chemin = strtok(copie_chem, "/");
-
-    while (chemin != NULL)
-    {
-        if (strcmp(chemin, "..") == 0)
-        {
-            actuel = actuel->pere;
-        }
-        else if (strcmp(chemin, ".") == 0)
-        {
-        }
-        else
-        {
-            liste_noeud *liste = actuel->fils;
-            noeud *trouve = NULL;
-
-            while (liste != NULL)
-            {
-                if (strcmp(liste->no->nom, chemin) == 0)
-                {
-                    trouve = liste->no;
-                    break;
-                }
-                liste = liste->succ;
-            }
-            if (trouve == NULL || !trouve->est_dossier)
-            {
-                printf("Erreur : chemin invalide.\n");
-                free(copie_chem);
-                exit(1);
-            }
-            actuel = trouve;
-        }
-        chemin = strtok(NULL, "/");
-    }
-    noeudCourant = actuel;
-    free(copie_chem);
+    noeudCourant = cible;
 }
