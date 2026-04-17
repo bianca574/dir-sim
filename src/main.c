@@ -34,27 +34,49 @@ int main()
     mkdir("Cours");
     mkdir("Td");
     touch("edt");
-        
+
     cd("Cours");
     mkdir("ProjetC");
     mkdir("Anglais");
-    
 
-    cd ("..");
-    cd ("Td");
+    cd("..");
+    cd("Td");
     touch("td1");
     touch("td2");
-    
-    cd ("../Cours/ProjetC");
+
+    cd("../Cours/ProjetC");
     mkdir("ok");
     cd("ok");
     printf("pwd\n");
-    
-    pwd();
-    
+    cd("../..");
+    ls();
 
-    
-    
+    pwd();
+
+    print();
+
+    printf("\nTest RM\n");
+    cd("/");
+    rm("edt");
+    print();
+
+    printf("\nTest MV\n");
+    mv("/Cours/ProjetC/ok", "/OkAtRoot");
+    print();
+
+    // printf("\n--- Test RM soi-même ---\n");
+    // cd("/");
+    // cd("/Cours/ProjetC");
+    // rm("/Cours/ProjetC");
+
+    // printf("\n--- Test RM ancêtre ---\n");
+    // cd("/");
+    // cd("/Cours/ProjetC");
+    // rm("/Cours");
+
+    printf("\nTest RM dossier\n");
+    cd("/");
+    rm("Td");
     print();
 
     free_noeud(noeudCourant->racine);

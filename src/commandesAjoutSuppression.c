@@ -10,6 +10,11 @@
 
 void mkdir(const char *nom)
 {
+    if (chercher_fils(noeudCourant, nom) != NULL)
+    {
+        printf("Erreur : Un dossier avec ce nom existe déjà.\n");
+        exit(1);
+    }
     noeud *nouveauDossier;
     nouveauDossier = malloc(sizeof(noeud));
     if (nouveauDossier == NULL)
@@ -24,7 +29,7 @@ void mkdir(const char *nom)
     nouveauDossier->racine = noeudCourant->racine;
     nouveauDossier->fils = NULL;
 
-    ajouterFilsANoeudCourant(nouveauDossier);
+    ajouterFilsANoeudCourant(noeudCourant, nouveauDossier);
 }
 
 void touch(const char *nom)
@@ -63,6 +68,12 @@ void touch(const char *nom)
     }
 
     // création fichier
+
+    if (chercher_fils(noeudCourant, nom) != NULL)
+    {
+        printf("Erreur : Un fichier avec ce nom existe déjà.\n");
+        exit(1);
+    }
     noeud *nouveaufichier;
     nouveaufichier = malloc(sizeof(noeud));
     if (nouveaufichier == NULL)
@@ -77,14 +88,14 @@ void touch(const char *nom)
     nouveaufichier->racine = noeudCourant->racine;
     nouveaufichier->fils = NULL;
 
-    ajouterFilsANoeudCourant(nouveaufichier);
+    ajouterFilsANoeudCourant(noeudCourant, nouveaufichier);
 }
 
 void rm(const char *chem)
 {
     if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
     {
-        printf("Impossible de supprimer les dossiers/fichiers indiqués.\n");
+        printf("Erreur : Impossible de supprimer les dossiers/fichiers indiqués.\n");
         exit(1);
     }
 
@@ -95,49 +106,51 @@ void rm(const char *chem)
         printf("Erreur : le chemin n'existe pas.\n");
         exit(1);
     }
-    noeud *temp = noeudCourant;
-
-    bool stop = false;
-
-    while (!stop)
+    if (est_ancetre(cible, noeudCourant))
     {
-        if (temp == cible)
-        {
-            printf("Impossible de supprimer les dossiers/fichiers indiqués.\n");
-            exit(1);
-        }
-        if (temp == temp->pere)
-        {
-            stop = true;
-        }
-        else
-        {
-            temp = temp->pere;
-        }
+        printf("Erreur : Impossible de supprimer les dossiers/fichiers indiqués.\n");
+        exit(1);
     }
-    noeud *p = cible->pere;
-
-    if (p->fils->no == cible)
-    {
-        liste_noeud *a_supprimer = p->fils;
-        p->fils = p->fils->succ;
-        free(a_supprimer);
-    }
-    else
-    {
-        liste_noeud *courant = p->fils;
-        liste_noeud *precedent = NULL;
-
-        while (courant != NULL && courant->no != cible)
-        {
-            precedent = courant;
-            courant = courant->succ;
-        }
-        if (courant != NULL)
-        {
-            precedent->succ = courant->succ;
-            free(courant);
-        }
-    }
+    retirer_fils(cible->pere, cible);
     free_noeud(cible);
+}
+
+void mv(const char *chem1, const char *chem2)
+{
+    noeud *cible = trouver_noeud(chem1);
+
+    if (cible == NULL)
+    {
+        printf("Erreur : Le chemin n'existe pas.\n");
+        exit(1);
+    }
+    char parent_dest_chem[100];
+    char nouveau_nom[100];
+
+    separer_chemin(chem2, parent_dest_chem, nouveau_nom);
+
+    noeud *dest_parent = trouver_noeud(parent_dest_chem);
+
+    if (dest_parent == NULL || !dest_parent->est_dossier)
+    {
+        printf("Erreur : La destination n'est pas un dossier valide.\n");
+        exit(1);
+    }
+    if (est_ancetre(cible, dest_parent))
+    {
+        printf("Erreur : Impossible de déplacer un dossier dans lui-même ou un de ses fils.\n");
+        exit(1);
+    }
+    if (chercher_fils(dest_parent, nouveau_nom))
+    {
+        printf("Erreur : Le dossier/fichier que vous voulez déplacer existe déja dans ce dossier.\n");
+        exit(1);
+    }
+    retirer_fils(cible->pere, cible);
+
+    strcpy(cible->nom, nouveau_nom);
+
+    ajouterFilsANoeudCourant(dest_parent, cible);
+
+    cible->pere = dest_parent;
 }
