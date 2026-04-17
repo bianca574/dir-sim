@@ -24,4 +24,16 @@ void ajouterFilsANoeudCourant(noeud *nouveauFils){
     }
 }
 
-
+void free_noeud(noeud *noeud){
+    if (noeud == NULL){
+        return;
+    }
+    liste_noeud *copie = noeud->fils;
+    while(copie != NULL){
+        liste_noeud *suivant = copie->succ;
+        free_noeud(copie->no);
+        free(copie);
+        copie=suivant;
+    }
+    free (noeud);
+}

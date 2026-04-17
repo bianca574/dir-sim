@@ -15,5 +15,5 @@ make clean && make program && ./program
 ## Valgrind
 
 ```bash
-valgrind --leak-check=full
+valgrind --leak-check=full ./program
 ```

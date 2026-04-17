@@ -31,16 +31,25 @@ int main()
     ls();
 
     printf("\nAjout d'un dossier:\n");
-    mkdir("Test2");
-    ls();
+    mkdir("Cours");
+    mkdir("Td");
+    touch("edt");
+        
+    cd("Cours");
+    mkdir("ProjetC");
+    mkdir("Anglais");
 
-    printf("\nAjout d'un fichier:\n");
-    touch("mon fichier");
-    // pour tester si touch fonctionne :
-    // touch("Test2");
-    touch("f2");
-    mkdir("d2");
-    ls();
+    cd ("..");
+    cd ("Td");
+    touch("td1");
+    touch("td2");
+    
+
+    
+    
+    print();
+
+    free_noeud(noeudCourant->racine);
 
     return 0;
 }

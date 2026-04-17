@@ -2,3 +2,4 @@
 
 void ls();
 void pwd();
+void print();
