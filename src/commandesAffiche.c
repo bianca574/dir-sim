@@ -14,7 +14,18 @@ void ls(){
     }
 }
 
+void pwd_noeud(noeud *no){
+    if (no!=no->racine){
+        pwd_noeud(no->pere);
+        printf("/%s", no->nom);
+    }
+}
+
+
 void pwd(){
+    noeud *copieNo = noeudCourant;
+    pwd_noeud(copieNo);
+    printf("\n");
 }
 
 void print_noeud(noeud *noeud){
