@@ -8,6 +8,11 @@
 
 void cd(const char *chem)
 {
+    if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
+    {
+        noeudCourant = noeudCourant->racine;
+        return;
+    }
     char *copie_chem = malloc((strlen(chem) + 1) * sizeof(char));
 
     if (copie_chem == NULL)
@@ -33,13 +38,12 @@ void cd(const char *chem)
 
     while (chemin != NULL)
     {
-        if (strcmp(chemin, ".."))
+        if (strcmp(chemin, "..") == 0)
         {
             actuel = actuel->pere;
         }
-        else if (strcmp(chemin, "."))
+        else if (strcmp(chemin, ".") == 0)
         {
-            actuel = actuel;
         }
         else
         {
@@ -62,8 +66,8 @@ void cd(const char *chem)
                 exit(1);
             }
             actuel = trouve;
-            chemin = strtok(NULL, "/");
         }
+        chemin = strtok(NULL, "/");
     }
     noeudCourant = actuel;
     free(copie_chem);
