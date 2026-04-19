@@ -57,12 +57,12 @@ int main()
 
     //test rm
     printf("\nTest RM\n");
-    //cd("/");
-    //rm("edt");
+    cd("/");
+    rm("edt");
     print();
 
     printf("\nTest MV\n");
-    //mv("/Cours/ProjetC/ok", "/OkAtRoot");
+    mv("/Cours/ProjetC/ok", "/OkAtRoot");
     print();
 
     // printf("\n--- Test RM soi-même ---\n");
@@ -76,17 +76,17 @@ int main()
     // rm("/Cours");
 
     printf("\nTest RM dossier\n");
-    //cd("/");
-    //rm("Td");
+    cd("/");
+    rm("Td");
+    print();
 
     //tesp pwd
-    pwd();
-    print();
-
+    //pwd();
+    
     // test cp
-    cp("ProjetC", "Anglais/nouveau");
-    printf("ajout cp: \n");
-    print();
+    //cp("ProjetC", "Anglais/nouveau");
+    //printf("ajout cp: \n");
+    //print();
 
     free_noeud(noeudCourant->racine);
 
