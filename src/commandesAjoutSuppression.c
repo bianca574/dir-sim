@@ -156,6 +156,9 @@ void mv(const char *chem1, const char *chem2)
     ajouterFilsANoeudCourant(cible, dest_parent);
 
     cible->pere = dest_parent;
+
+    free(parent_dest_chem);
+    free(nouveau_nom);
 }
 
 
