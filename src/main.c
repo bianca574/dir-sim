@@ -47,14 +47,15 @@ int main()
     cd("../Cours/ProjetC");
     mkdir("ok");
     cd("ok");
-    printf("pwd\n");
-    cd("../..");
+    
+    cd ("../../");
     ls();
 
     pwd();
 
     print();
 
+    //test rm
     printf("\nTest RM\n");
     cd("/");
     rm("edt");
@@ -78,6 +79,14 @@ int main()
     cd("/");
     rm("Td");
     print();
+
+    //tesp pwd
+    //pwd();
+    
+    // test cp
+    //cp("ProjetC", "Anglais/nouveau");
+    //printf("ajout cp: \n");
+    //print();
 
     free_noeud(noeudCourant->racine);
 

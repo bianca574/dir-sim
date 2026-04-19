@@ -7,17 +7,18 @@
 #include "utile.h"
 
 // ajout à la fin de fils
-void ajouterFilsANoeudCourant(noeud *parent, noeud *nouveauFils)
+
+void ajouterFilsANoeudCourant(noeud *nouveauFils, noeud *pere)
 {
-    if (parent->fils == NULL)
+    if (pere->fils == NULL)
     {
-        parent->fils = malloc(sizeof(liste_noeud));
-        parent->fils->no = nouveauFils;
-        parent->fils->succ = NULL;
+        pere->fils = malloc(sizeof(liste_noeud));
+        pere->fils->no = nouveauFils;
+        pere->fils->succ = NULL;
     }
     else
     {
-        liste_noeud *copie = parent->fils;
+        liste_noeud *copie = pere->fils;
         while (copie->succ != NULL)
         {
             copie = copie->succ;
@@ -26,6 +27,7 @@ void ajouterFilsANoeudCourant(noeud *parent, noeud *nouveauFils)
         copie->succ->no = nouveauFils;
         copie->succ->succ = NULL;
     }
+    nouveauFils->pere = pere;
 }
 
 void free_noeud(noeud *noeud)
@@ -56,7 +58,7 @@ noeud *trouver_noeud(const char *chem)
 
     if (copie_chem == NULL)
     {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        printf( "Erreur d'allocation mémoire.\n");
         exit(1);
     }
 
@@ -87,6 +89,7 @@ noeud *trouver_noeud(const char *chem)
             free(copie_chem);
             return NULL;
         }
+
         chemin = strtok(NULL, "/");
 
         if (chemin != NULL)
@@ -103,44 +106,60 @@ noeud *trouver_noeud(const char *chem)
     return trouve;
 }
 
-void separer_chemin(const char *chem, char *nouveau_chem, char *nom_fic)
+void separer_chemin(const char *chem2, char **chemin, char **nom)
 {
-    if (chem == NULL || strlen(chem) == 0)
-    {
-        return;
-    }
-
-    char *copie_chem = malloc((strlen(chem) + 1) * sizeof(char));
-
-    if (copie_chem == NULL)
-    {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+    char *copie = malloc(strlen(chem2) + 1);
+    if (copie == NULL) {
+        printf("Erreur de malloc");
         exit(1);
     }
-    strcpy(copie_chem, chem);
 
-    char *dernier_slash = strrchr(copie_chem, '/');
+    strcpy(copie, chem2);
 
-    if (dernier_slash == NULL)
-    {
-        strcpy(nouveau_chem, ".");
-        strcpy(nom_fic, chem);
-    }
-    else
-    {
-        strcpy(nom_fic, dernier_slash + 1);
+    char *slash = strrchr(copie, '/');
 
-        if (dernier_slash == copie_chem)
-        {
-            strcpy(nouveau_chem, "/");
+    if (slash == NULL) { // cas pour "td1"
+        
+        *nom = malloc(strlen(copie) + 1);
+        *chemin = malloc(2*sizeof(char)); 
+        
+        if (*nom == NULL || *chemin == NULL) {
+            printf("erreur de malloc");
+            exit(1);
         }
-        else
+        strcpy(*nom, copie);
+        strcpy(*chemin, ".");
+
+    } else {
+        *nom = malloc(strlen(slash + 1) + 1);
+        if (*nom == NULL) 
         {
-            *dernier_slash = '\0';
-            strcpy(nouveau_chem, copie_chem);
+            printf("erreur de malloc");
+            exit(1);
+        }
+        strcpy(*nom, slash + 1);
+
+        if (slash == copie) { // slash au début
+            *chemin = malloc(2*sizeof(char));
+            if (*chemin == NULL) 
+            {
+                printf("erreur de malloc");
+                exit(1);
+            }
+            strcpy(*chemin, "/");
+        } else {
+            *slash = '\0';
+            *chemin = malloc(strlen(copie) + 1);
+            if (*chemin ==NULL) 
+            {
+                printf("erreur de malloc");
+                exit(1);
+            }
+            strcpy(*chemin, copie);
         }
     }
-    free(copie_chem);
+
+    free(copie);
 }
 
 bool est_ancetre(noeud *potentiel_ancetre, noeud *depart)

@@ -8,4 +8,7 @@ void touch(const char *nom);
 void rm(const char *chem);
 void mv(const char *chem1, const char *chem2);
 
+void cp(const char *chem1, const char *chem2);
+
+
 #endif

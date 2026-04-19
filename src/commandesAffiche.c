@@ -105,7 +105,7 @@ void print_aux(noeud *noeud)
     }
 }
 
-// affichage qui va en profndeur le plus spossible : préfixe ?
+// affichage qui va en profndeur le plus possible : préfixe ?
 void print()
 {
     print_aux(noeudCourant->racine);
