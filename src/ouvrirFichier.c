@@ -69,11 +69,11 @@ void parserCommande(char *ligne, char *commande){
     }else if (strcmp(commande, "ls") == 0){
         parserLs(ligne);
     }else if(strcmp(commande, "print") == 0){
-
+        parserPrint(ligne);
     }else if(strcmp(commande, "pwd") == 0){
         parserPwd(ligne);
     }else if(strcmp(commande, "mkdir") == 0){
-        
+        parserMkdir(ligne);
     }else if(strcmp(commande, "touch") == 0){
         
     }else if(strcmp(commande, "rm") == 0){

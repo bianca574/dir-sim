@@ -10,3 +10,5 @@
 
 void parserLs(char *ligneSansCommande);
 void parserPwd(char *ligneSansCommande);
+void parserPrint(char *ligneSansCommande);
+void parserMkdir(char *ligneSansCommande);
