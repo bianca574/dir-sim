@@ -74,3 +74,25 @@ void parserTouch(char *ligneSansCommande){
 }
 
 
+void parserCp(char *ligneSansCommande){
+    char * strToken = strtok(ligneSansCommande, " \n");
+    char *chem1=NULL;
+    char*chem2=NULL;
+
+    if (strToken != NULL){
+        chem1 =strToken;
+        strToken = strtok(NULL, " \n");
+    }
+
+    if (strToken != NULL){
+        chem2 = strToken;
+        strToken = strtok(NULL, " \n");
+    }
+
+    if (strToken != NULL){
+        printf("la commande cp a trop d'argument.\n");
+        exit(1);
+    }else {
+        cp(chem1, chem2);
+    }
+}

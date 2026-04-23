@@ -79,7 +79,7 @@ void parserCommande(char *ligne, char *commande){
     }else if(strcmp(commande, "rm") == 0){
         
     }else if(strcmp(commande, "cp") == 0){
-        
+        parserCp(ligne);
     }else if(strcmp(commande, "mv") == 0){
         
     }else if(strcmp(commande, "find") == 0){
