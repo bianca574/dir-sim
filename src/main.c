@@ -27,16 +27,10 @@ void init()
 }
 
 int main(){
-    init();
     
-    mkdir("Cours");
-    mkdir("Td");
-    touch("edt");
-
-    cd("Cours");
-    mkdir("ProjetC");
-    mkdir("Anglais");
-
+    init();
+    //mkdir("Test");
+    
     ouvrirLeFichier();
     
     free_noeud(noeudCourant->racine);
