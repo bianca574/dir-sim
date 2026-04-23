@@ -6,6 +6,8 @@
 #include "commandesAjoutSuppression.h"
 #include "commandesParcours.h"
 #include "utile.h"
+#include "ouvrirFichier.h"
+#include "parser.h"
 
 noeud *noeudCourant = NULL;
 
@@ -24,7 +26,23 @@ void init()
     noeudCourant->fils = NULL;
 }
 
-int main()
+int main(){
+    init();
+    
+    mkdir("Cours");
+    mkdir("Td");
+    touch("edt");
+
+    cd("Cours");
+    mkdir("ProjetC");
+    mkdir("Anglais");
+
+    ouvrirLeFichier();
+    
+    return 0;
+    
+}
+int main2()
 {
     init();
     printf("Début :\n");
@@ -65,12 +83,12 @@ int main()
     mv("/Cours/ProjetC/ok", "/OkAtRoot");
     print();
 
-    // printf("\n--- Test RM soi-même ---\n");
+    // printf("\n Test RM soi-même\n");
     // cd("/");
     // cd("/Cours/ProjetC");
     // rm("/Cours/ProjetC");
 
-    // printf("\n--- Test RM ancêtre ---\n");
+    // printf("\n Test RM ancêtre \n");
     // cd("/");
     // cd("/Cours/ProjetC");
     // rm("/Cours");
