@@ -1,3 +1,5 @@
-mkdir Cours
+mkdir Td
 ls
+touch td1
+cp Cours Td/Coursbis
 print

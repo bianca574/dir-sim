@@ -12,3 +12,5 @@ void parserLs(char *ligneSansCommande);
 void parserPwd(char *ligneSansCommande);
 void parserPrint(char *ligneSansCommande);
 void parserMkdir(char *ligneSansCommande);
+void parserTouch(char *ligneSansCommande);
+void parserCp(char *ligneSansCommande);

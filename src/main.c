@@ -29,8 +29,11 @@ void init()
 int main(){
     
     init();
-    //mkdir("Test");
-    
+    mkdir("Cours");
+    cd ("Cours");
+    touch("copie");
+    mkdir("ok");
+    cd ("..");
     ouvrirLeFichier();
     
     free_noeud(noeudCourant->racine);
