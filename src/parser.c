@@ -13,7 +13,7 @@ void parserLs(char *ligneSansCommande){
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         ls();
     }else {
-        printf("la commande ls n'a pas d'argument"); // à voir si on change
+        printf("la commande ls n'a pas d'argument\n"); // à voir si on change
         exit(1);
     }
 }
@@ -22,7 +22,7 @@ void parserPwd(char *ligneSansCommande){
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         pwd();
     }else {
-        printf("la commande pwd n'a pas d'argument"); // à voir si on change
+        printf("la commande pwd n'a pas d'argument\n"); // à voir si on change
         exit(1);
     }
 }
@@ -31,7 +31,7 @@ void parserPrint(char *ligneSansCommande){
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         print();
     }else {
-        printf("la commande print n'a pas d'argument"); // à voir si on change
+        printf("la commande print n'a pas d'argument\n"); // à voir si on change
         exit(1);
     }
 }
@@ -46,12 +46,31 @@ void parserMkdir(char *ligneSansCommande){
     if (strToken != NULL){
         strToken = strtok(NULL, " \n");
     }
+
     if (strToken != NULL){
-        printf("la commande mkdir a trop d'argument.");
+        printf("la commande mkdir a trop d'argument.\n");
         exit(1);
     }
     else { 
         mkdir(ligneSansCommande);
     }
 }
+
+void parserTouch(char *ligneSansCommande){
+    
+    char * strToken = strtok(ligneSansCommande, " \n");
+
+    if (strToken != NULL){
+        strToken = strtok(NULL, " \n");
+    }
+
+    if (strToken != NULL){
+        printf("la commande touch a trop d'argument.\n");
+        exit(1);
+    }
+    else { 
+        touch(ligneSansCommande);
+    }
+}
+
 
