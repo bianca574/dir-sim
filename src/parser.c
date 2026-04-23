@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "parser.h"
+
+#include "commandesAffiche.h"
+#include "commandesAjoutSuppression.h"
+#include "commandesParcours.h"
+
+void parserLs(char *ligneSansCommande){
+    //printf("%sok", ligneSansCommande);
+    if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
+        ls();
+    }else {
+        printf("la commande ls n'a pas d'argument"); // à voir si on change
+        exit(1);
+    }
+}
+void parserPwd(char *ligneSansCommande){
+    printf("%s", ligneSansCommande);
+    if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
+        pwd();
+    }else {
+        printf("la commande pwd n'a pas d'argument"); // à voir si on change
+        exit(1);
+    }
+}
