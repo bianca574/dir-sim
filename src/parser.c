@@ -9,7 +9,8 @@
 #include "commandesParcours.h"
 
 void parserLs(char *ligneSansCommande){
-    if (ligneSansCommande[0] == '\0') {
+    //printf("%sok", ligneSansCommande);
+    if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         ls();
     }else {
         printf("la commande ls n'a pas d'argument"); // à voir si on change
@@ -17,7 +18,8 @@ void parserLs(char *ligneSansCommande){
     }
 }
 void parserPwd(char *ligneSansCommande){
-    if (ligneSansCommande[0] == '\0') {
+    printf("%s", ligneSansCommande);
+    if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         pwd();
     }else {
         printf("la commande pwd n'a pas d'argument"); // à voir si on change

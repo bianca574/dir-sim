@@ -34,7 +34,7 @@ int ouvrirLeFichier(){
 
 
 char *lireLigne(FILE *f, char *ligne){
-   return fgets(ligne, 20, f);
+   return fgets(ligne, 500, f);
 }
 
 
@@ -46,7 +46,10 @@ void trouverCommande(char *ligne, char *commande){
     }
     commande[i] ='\0';
 
-    i+=1; // enlever espace dans ligne
+    if (ligne[i] == ' '){
+        i++;
+    }
+    // enlever espace dans ligne
 
     int j =0;
     while (ligne[j] != '\0'){

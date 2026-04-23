@@ -39,6 +39,8 @@ int main(){
 
     ouvrirLeFichier();
     
+    free_noeud(noeudCourant->racine);
+
     return 0;
     
 }
