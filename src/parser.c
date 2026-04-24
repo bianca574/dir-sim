@@ -53,7 +53,7 @@ void parserMkdir(char *ligneSansCommande){
         strToken = strtok(NULL, " \n");
     }else {
         erreur();
-        print("La commande mkdir demande un argument. Aucun n'est donné \n");
+        printf("La commande mkdir demande un argument. Aucun n'est donné \n");
         exit(1);
     }
 
