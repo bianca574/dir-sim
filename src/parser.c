@@ -251,7 +251,8 @@ void parserFind(char *ligneSansCommande)
 
     if (args == NULL)
     {
-        printf("Erreur d'allocation mémoire");
+        erreur();
+        printf("Erreur d'allocation mémoire.\n");
         exit(1);
     }
 
@@ -274,7 +275,8 @@ void parserFind(char *ligneSansCommande)
             if (temp == NULL)
             {
                 free(args);
-                printf("Erreur de réallocation");
+                erreur();
+                printf("Erreur de réallocation.\n");
                 exit(1);
             }
             args = temp;

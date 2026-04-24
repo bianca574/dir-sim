@@ -1,5 +1,14 @@
+mkdir LangC
+cd LangC
 mkdir Td
+cd Td
 ls 
-touch td1           
-cp Cours Td/Coursbis 
+touch td1 
+pwd
+cd ..
+mv td1 /td2
+find td2
+cd    
+cp Cours Td/Coursbis               
+rm LangC            
 print
