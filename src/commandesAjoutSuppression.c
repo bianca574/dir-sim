@@ -7,12 +7,14 @@
 #include "utile.h"
 
 #include "commandesAjoutSuppression.h"
+#include "ouvrirFichier.h"
 
 void mkdir(const char *nom)
 {   
     if (chercher_fils(noeudCourant, nom) != NULL)
     {
-        printf("Attention : un dossier avec ce nom existe déjà.\n");
+        erreur();
+        printf("Attention : un dossier %s existe déjà.\n", nom);
         exit(1);
     }
     noeud *nouveauDossier;
@@ -196,7 +198,8 @@ void verifier_doublon(noeud *dest, const char *nom)
     {
         if (strcmp(f->no->nom, nom) == 0)
         {
-            printf("Attention le nom existe déjà dans le dossier\n");
+            erreur();
+            printf("Attention %s existe déjà dans le dossier\n", nom);
             exit(1);
         }
         f = f->succ;
@@ -209,7 +212,8 @@ noeud* verifier_destination(const char *chemin)
 
     if (dest == NULL || !dest->est_dossier)
     {
-        printf("Attention le dernier nom du chemin chem2 n'est pas correct (pas un dossier ou n'existe pas)\n");
+        erreur();
+        printf("Attention le dernier nom du chemin %s n'est pas correct (pas un dossier ou n'existe pas)\n", chemin);
         exit(1);
     }
 
@@ -223,7 +227,8 @@ void verifier_sous_arbre(noeud *source, noeud *dest)
     {
         if (tmp == source)
         {
-            printf("Attention le chemin se trouve dans le sous-arbre\n");
+            erreur();
+            printf("Le chemin se trouve dans le sous-arbre\n");
             exit(1);
         }
         tmp = tmp->pere;
@@ -233,7 +238,8 @@ void verifier_sous_arbre(noeud *source, noeud *dest)
 void cp(const char *chem1, const char *chem2){
     noeud *bon_chemin1 = trouver_noeud(chem1);
     if (! bon_chemin1){
-        printf("Le premier chemin n'est pas correct");
+        erreur();
+        printf("Le chemin %s n'est pas correct", chem1);
         exit(1);
     }
 

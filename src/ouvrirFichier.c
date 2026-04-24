@@ -11,6 +11,7 @@ char *lireLigne(FILE *f, char *ligne);
 void parserCommande(char *ligne, char *commande);
 void trouverCommande(char *ligne, char *commande);
 
+struct gestionErreur gestionErreur;
 
 int ouvrirLeFichier(){
     FILE *f;
@@ -19,11 +20,13 @@ int ouvrirLeFichier(){
         printf("echec ouverture du fichier");
         exit(1);
     } 
+    gestionErreur.numero_ligne=1;
     char ligne[500]; // attention taille
-   char commande [500];
+    char commande [500];
     if (f!= NULL){;
         while (lireLigne(f, ligne) != NULL){
             parserCommande(ligne, commande);
+            gestionErreur.numero_ligne += 1;    
         } 
         
     }   
@@ -34,7 +37,11 @@ int ouvrirLeFichier(){
 
 
 char *lireLigne(FILE *f, char *ligne){
-   return fgets(ligne, 500, f);
+    char * chaine_ligne = fgets(ligne, 500, f); 
+    if (chaine_ligne != NULL){
+        strcpy(gestionErreur.instruction_commande,chaine_ligne);
+    }
+    return chaine_ligne;
 }
 
 
@@ -61,6 +68,10 @@ void trouverCommande(char *ligne, char *commande){
     
 }
 
+void erreur(){
+    printf("Erreur à la ligne %d : %s", gestionErreur.numero_ligne, gestionErreur.instruction_commande);
+}
+
 void parserCommande(char *ligne, char *commande){
     trouverCommande(ligne, commande);
 
@@ -85,7 +96,8 @@ void parserCommande(char *ligne, char *commande){
     }else if(strcmp(commande, "find") == 0){
         
     }else {
-        printf("la commande n'existe pas");
+        erreur();
+        printf("La commande %s n'existe pas \n", commande);
         exit(1);
     }   
 }
