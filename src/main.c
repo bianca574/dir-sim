@@ -26,15 +26,19 @@ void init()
     noeudCourant->fils = NULL;
 }
 
-int main(){
+int main(int argc, char **argv){
     
+    if (argc != 2){
+        printf("Erreur: le programme prend un seul argument");
+        exit(1);
+    }
     init();
     mkdir("Cours");
     cd ("Cours");
     touch("copie");
     mkdir("ok");
     cd ("..");
-    ouvrirLeFichier();
+    ouvrirLeFichier(argv[1]);
     
     free_noeud(noeudCourant->racine);
 

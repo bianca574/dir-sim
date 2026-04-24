@@ -9,7 +9,7 @@ make program && ./program
 ```
 Pour réinitialiser :
 ```bash
-make clean && make program && ./program
+make clean && make program && ./program monfichier.txt
 ```
 
 ## Valgrind
