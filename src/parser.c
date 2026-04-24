@@ -8,12 +8,16 @@
 #include "commandesAjoutSuppression.h"
 #include "commandesParcours.h"
 
+#include "ouvrirFichier.h"
+
+
 void parserLs(char *ligneSansCommande){
     //printf("%sok", ligneSansCommande);
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         ls();
     }else {
-        printf("la commande ls n'a pas d'argument\n"); // à voir si on change
+        erreur();
+        printf("La commande ls ne doit prendre aucun argument. Trop d'arguments sont donnés\n"); // à voir si on change
         exit(1);
     }
 }
@@ -22,7 +26,8 @@ void parserPwd(char *ligneSansCommande){
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         pwd();
     }else {
-        printf("la commande pwd n'a pas d'argument\n"); // à voir si on change
+        erreur();
+        printf("La commande pwd ne doit prendre aucun argument. Trop d'arguments sont donnés\n"); // à voir si on change
         exit(1);
     }
 }
@@ -31,7 +36,8 @@ void parserPrint(char *ligneSansCommande){
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n') {
         print();
     }else {
-        printf("la commande print n'a pas d'argument\n"); // à voir si on change
+        erreur();
+        printf("La commande print ne doit prendre aucun argument. Trop d'arguments sont donnés\n"); // à voir si on change
         exit(1);
     }
 }
@@ -45,10 +51,15 @@ void parserMkdir(char *ligneSansCommande){
 
     if (strToken != NULL){
         strToken = strtok(NULL, " \n");
+    }else {
+        erreur();
+        print("La commande mkdir demande un argument. Aucun n'est donné \n");
+        exit(1);
     }
 
     if (strToken != NULL){
-        printf("la commande mkdir a trop d'argument.\n");
+        erreur();
+        printf("La commande mkdir a trop d'argument.\n");
         exit(1);
     }
     else { 
@@ -62,10 +73,15 @@ void parserTouch(char *ligneSansCommande){
 
     if (strToken != NULL){
         strToken = strtok(NULL, " \n");
+    }else {
+        erreur();
+        printf("La commande touch demande un argument. Aucun n'est donné \n");
+        exit(1);
     }
 
     if (strToken != NULL){
-        printf("la commande touch a trop d'argument.\n");
+        erreur();
+        printf("La commande touch demande un argument. Trop d'arguments sont donnés \n");
         exit(1);
     }
     else { 
@@ -82,15 +98,25 @@ void parserCp(char *ligneSansCommande){
     if (strToken != NULL){
         chem1 =strToken;
         strToken = strtok(NULL, " \n");
+    } else {
+        erreur();
+        printf("La commande cp demande deux arguments. Aucun n'est donné \n");
+        exit(1);
     }
 
     if (strToken != NULL){
         chem2 = strToken;
         strToken = strtok(NULL, " \n");
+    }else {
+        erreur();
+        printf("La commande cp demande deux arguments. Un seul est donné \n");
+        exit(1);
     }
 
+
     if (strToken != NULL){
-        printf("la commande cp a trop d'argument.\n");
+        erreur();
+        printf("La commande cp demande deux arguments. Trop d'arguments sont donnés \n");
         exit(1);
     }else {
         cp(chem1, chem2);

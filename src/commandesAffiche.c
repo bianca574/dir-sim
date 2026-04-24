@@ -5,12 +5,14 @@
 
 #include "dataNode.h"
 #include "commandesAffiche.h"
+#include "ouvrirFichier.h"
 
 void ls()
 {
     liste_noeud *copie = noeudCourant->fils;
     while (copie != NULL)
     {
+
         printf("%s \n", copie->no->nom);
         copie = copie->succ;
     }
