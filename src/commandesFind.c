@@ -38,7 +38,7 @@ static void find_aux(noeud *no, const OptionFind *opt)
     }
     if (correspond(no, opt))
     {
-        pwd(no);
+        pwd_noeud(no);
         printf("\n");
     }
     liste_noeud *liste = no->fils;
