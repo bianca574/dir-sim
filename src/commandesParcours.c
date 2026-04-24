@@ -20,13 +20,13 @@ void cd(const char *chem)
     if (cible == NULL)
     {
         printf("Erreur : le dossier n'existe pas.\n");
-        return;
+        exit(1);
     }
 
     if (!cible->est_dossier)
     {
         printf("Erreur : %s n'est pas un dossier.\n", chem);
-        return;
+        exit(1);
     }
     noeudCourant = cible;
 }
