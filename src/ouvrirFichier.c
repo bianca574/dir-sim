@@ -13,11 +13,11 @@ void trouverCommande(char *ligne, char *commande);
 
 struct gestionErreur gestionErreur;
 
-int ouvrirLeFichier(){
+int ouvrirLeFichier(char *nomfichier){
     FILE *f;
-    f = fopen("monfichier.txt", "r");
+    f = fopen(nomfichier, "r");
     if (f== NULL){
-        printf("echec ouverture du fichier");
+        printf("Echec ouverture du fichier : le fichier %s n'existe pas\n", nomfichier);
         exit(1);
     } 
     gestionErreur.numero_ligne=1;

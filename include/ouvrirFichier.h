@@ -11,7 +11,7 @@
 #include "parser.h"
 
 
-int ouvrirLeFichier();
+int ouvrirLeFichier(char *nomfichier);
 void erreur();
 
 struct gestionErreur {
