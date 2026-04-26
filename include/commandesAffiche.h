@@ -2,11 +2,9 @@
 #define COMMANDES_AFFICHE_H
 #include "dataNode.h"
 
-void ls();
+void ls(const char* nom);
 void pwd();
 void print();
 void pwd_noeud(noeud *no);
-void print_noeud(noeud *noeud);
-void print_aux(noeud *noeud);
 
 #endif

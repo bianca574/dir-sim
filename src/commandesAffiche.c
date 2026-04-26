@@ -5,14 +5,28 @@
 
 #include "dataNode.h"
 #include "commandesAffiche.h"
+
 #include "ouvrirFichier.h"
 
-void ls()
+void ls(const char* nom )
 {
-    liste_noeud *copie = noeudCourant->fils;
+    liste_noeud *copie;
+
+    if (strcmp(nom, "") == 0){    
+        copie = noeudCourant->fils;
+    }
+    else {
+        noeud *noeudALs = trouver_noeud(nom);
+        if (noeudALs == NULL){
+            erreur();
+            printf("Le chemin %s n'existe pas\n", nom);
+            exit(1);
+        }
+        copie = noeudALs->fils;
+    }
+
     while (copie != NULL)
     {
-
         printf("%s \n", copie->no->nom);
         copie = copie->succ;
     }
@@ -64,7 +78,7 @@ void print_noeud(noeud *noeud)
         }
         else
         {
-            printf("pere : %s ", noeud->pere->nom);
+            printf("pere : %s, ", noeud->pere->nom);
         }
     }
 
@@ -107,7 +121,7 @@ void print_aux(noeud *noeud)
     }
 }
 
-// affichage qui va en profndeur le plus possible : préfixe ?
+// affichage qui va en profndeur le plus possible : préfixe 
 void print()
 {
     print_aux(noeudCourant->racine);

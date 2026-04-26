@@ -1,0 +1,19 @@
+mkdir DateAnniversaire
+mkdir DatesImportantes
+touch notesPerso
+cd DateAnniversaire
+mkdir /DateAnniversaire/Juillet
+mkdir Aout
+touch /DateAnniversaire/autres
+cd Aout 
+touch aout
+pwd
+cd ../..
+ls DateAnniversaire
+cd DateAnniversaire
+cp ../DateAnniversaire/Aout ../DateAnniversaire/Juillet/AoutCopie
+mv Juillet/AoutCopie .
+print
+find aout
+rm /DateAnniversaire/AoutCopie
+print

@@ -8,6 +8,8 @@
 
 #include "commandesParcours.h"
 
+#include "ouvrirFichier.h"
+
 void cd(const char *chem)
 {
     if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
@@ -19,13 +21,15 @@ void cd(const char *chem)
 
     if (cible == NULL)
     {
-        printf("Erreur : le dossier n'existe pas.\n");
+        erreur();
+        printf("Le dossier %s n'existe pas.\n", chem);
         exit(1);
     }
 
     if (!cible->est_dossier)
     {
-        printf("Erreur : %s n'est pas un dossier.\n", chem);
+        erreur();
+        printf(" %s n'est pas un dossier.\n", chem);
         exit(1);
     }
     noeudCourant = cible;

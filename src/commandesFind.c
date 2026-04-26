@@ -73,7 +73,8 @@ void find(int argc, char **argv)
             i++; // le prochain arg est le sous-mot
             if (i >= argc)
             {
-                printf("Erreur : -s attend un sous-mot.\n");
+                erreur();
+                printf("-s attend un sous-mot.\n");
                 exit(1);
             }
             opt.sous_mot = true;
@@ -85,7 +86,8 @@ void find(int argc, char **argv)
         }
         if (opt.dossiers_seulement && opt.fichiers_seulement)
         {
-            printf("Erreur : -d et -f sont incompatibles.\n");
+            erreur();
+            printf("-d et -f sont incompatibles.\n");
             exit(1);
         }
     }
