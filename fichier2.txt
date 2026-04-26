@@ -15,7 +15,7 @@ cd ..
 print 
 ls
 cd 2025/Photos
-ls
+ls /2025
 mv souvenirVacancesParis VacancesFrance
 print
 pwd

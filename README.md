@@ -19,10 +19,11 @@ Si on veut choisir :
 make program && ./program fichierPDF.txt
 ```
 Noms des fichiers tests:
-- fichierPDF.txt (copie de celui donné dans l'énoné du projet)
+- fichierPDF.txt (copie de celui donné dans l'énoncé du projet)
 - fichier1.txt
 - fichier2.txt
-- fichier3.txt
+- fichier3.txt (provoque une erreur pour voir réaction face à une erreur dans un fichier)
+
 
 ## Valgrind
 
