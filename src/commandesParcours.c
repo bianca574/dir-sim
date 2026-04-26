@@ -8,6 +8,8 @@
 
 #include "commandesParcours.h"
 
+#include "ouvrirFichier.h"
+
 void cd(const char *chem)
 {
     if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
