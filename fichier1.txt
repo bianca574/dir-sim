@@ -1,5 +1,6 @@
 mkdir DateAnniversaire
 mkdir DatesImportantes
+touch notesPerso
 cd DateAnniversaire
 mkdir /DateAnniversaire/Juillet
 mkdir Aout
