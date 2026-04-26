@@ -22,5 +22,7 @@ mv Td3 LangC
 print
 rm LangC/Td3
 print
+ls
 mv LangC/td3 LangC/Td
 print
+mkdir LangC

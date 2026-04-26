@@ -43,6 +43,17 @@ char *lireLigne(FILE *f, char *ligne)
     char *chaine_ligne = fgets(ligne, 500, f);
     if (chaine_ligne != NULL)
     {
+        //enlever les \n à la fin du mot pour éviter de faire des sauts de ligne lors d'affichage
+        int i = 0;
+        while (ligne[i] != '\0')
+        {
+            if (ligne[i] == '\n')
+            {
+                ligne[i] = '\0';
+                break;
+            }
+            i++;
+        }
         strcpy(gestionErreur.instruction_commande, chaine_ligne);
     }
     return chaine_ligne;
@@ -76,7 +87,7 @@ void trouverCommande(char *ligne, char *commande)
 
 void erreur()
 {
-    printf("Erreur à la ligne %d : %s", gestionErreur.numero_ligne, gestionErreur.instruction_commande);
+    printf("Erreur à la ligne %d : %s\n", gestionErreur.numero_ligne, gestionErreur.instruction_commande);
 }
 
 void parserCommande(char *ligne, char *commande)

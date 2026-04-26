@@ -1,0 +1,6 @@
+touch test
+mkdir Dossier
+touch Dossier/fichier
+print
+mkdir a b
+pwd
