@@ -32,7 +32,7 @@ int main(int argc, char **argv){
     
     if (argc == 1){
         // par défaut
-        ouvrirLeFichier("monfichier.txt"); 
+        ouvrirLeFichier("fichierPDF.txt"); 
     }
     else if (argc != 2){
         printf("Erreur: le programme prend un seul argument");

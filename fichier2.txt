@@ -1,0 +1,24 @@
+mkdir 2025
+mkdir 2026
+cd 2025
+touch resolution2025
+mkdir Photos
+mkdir /2025/Videos
+cd Photos
+mkdir VacancesFrance
+mkdir VacancesItalie
+touch souvenirVacancesParis
+cd ../../2026
+mkdir NouvelAn
+touch NouvelAn/fete
+cd ..
+print 
+ls
+cd 2025/Photos
+ls
+mv souvenirVacancesParis VacancesFrance
+print
+pwd
+rm ../../2026/NouvelAn
+cp ../resolution2025 ../../2026/reprendreResolution2025
+print
