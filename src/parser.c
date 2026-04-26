@@ -13,21 +13,33 @@
 
 void parserLs(char *ligneSansCommande)
 {
-    // printf("%sok", ligneSansCommande);
-    if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n')
+    //printf("%sok", ligneSansCommande);
+    
+    char *strToken = strtok(ligneSansCommande, " \n");
+
+    if (strToken != NULL)
     {
-        ls();
+        strToken = strtok(NULL, " \n");
     }
     else
     {
+        ls("");
+        return;
+    }
+    if (strToken != NULL)
+    {
         erreur();
-        printf("La commande ls ne doit prendre aucun argument. Trop d'arguments sont donnés.\n"); // à voir si on change
+        printf("La commande ls a trop d'argument.\n");
         exit(1);
     }
+    else
+    {
+        ls(ligneSansCommande);
+    }
 }
+
 void parserPwd(char *ligneSansCommande)
 {
-    // printf("%s", ligneSansCommande);
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n')
     {
         pwd();

@@ -9,7 +9,7 @@ cd Aout
 touch aout
 pwd
 cd ../..
-ls
+ls DateAnniversaire
 cd DateAnniversaire
 cp ../DateAnniversaire/Aout ../DateAnniversaire/Juillet/AoutCopie
 mv Juillet/AoutCopie .

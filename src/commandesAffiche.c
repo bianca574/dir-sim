@@ -8,12 +8,25 @@
 
 #include "ouvrirFichier.h"
 
-void ls()
+void ls(const char* nom )
 {
-    liste_noeud *copie = noeudCourant->fils;
+    liste_noeud *copie;
+
+    if (strcmp(nom, "") == 0){    
+        copie = noeudCourant->fils;
+    }
+    else {
+        noeud *noeudALs = trouver_noeud(nom);
+        if (noeudALs == NULL){
+            erreur();
+            printf("Le chemin %s n'existe pas\n", nom);
+            exit(1);
+        }
+        copie = noeudALs->fils;
+    }
+
     while (copie != NULL)
     {
-
         printf("%s \n", copie->no->nom);
         copie = copie->succ;
     }
