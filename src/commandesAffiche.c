@@ -65,7 +65,7 @@ void print_noeud(noeud *noeud)
         }
         else
         {
-            printf("pere : %s ", noeud->pere->nom);
+            printf("pere : %s, ", noeud->pere->nom);
         }
     }
 
@@ -108,7 +108,7 @@ void print_aux(noeud *noeud)
     }
 }
 
-// affichage qui va en profndeur le plus possible : préfixe ?
+// affichage qui va en profndeur le plus possible : préfixe 
 void print()
 {
     print_aux(noeudCourant->racine);

@@ -1,16 +1,18 @@
-mkdir g DateAnniversaire
+mkdir DateAnniversaire
 mkdir DatesImportantes
 cd DateAnniversaire
 mkdir /DateAnniversaire/Juillet
 mkdir Aout
-touch autres
+touch /DateAnniversaire/autres
 cd Aout 
 touch aout
 pwd
 cd ../..
 ls
 cd DateAnniversaire
-cp ../DateAnniversaire/Aout ../DateAnniversaire/Juillet/Aoutbis
-mv Juillet/Aoutbis .
+cp ../DateAnniversaire/Aout ../DateAnniversaire/Juillet/AoutCopie
+mv Juillet/AoutCopie .
 print
 find aout
+rm /DateAnniversaire/AoutCopie
+print

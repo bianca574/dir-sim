@@ -106,6 +106,7 @@ noeud *trouver_noeud(const char *chem)
     return trouve;
 }
 
+//alloue de la mémoire dans chemin etv nom
 void separer_chemin(const char *chem2, char **chemin, char **nom)
 {
     char *copie = malloc(strlen(chem2) + 1);

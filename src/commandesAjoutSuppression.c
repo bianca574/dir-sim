@@ -9,24 +9,32 @@
 #include "commandesAjoutSuppression.h"
 #include "ouvrirFichier.h"
 
+void cheminAbsoluPreparartionCreation(const char *nom, char **chemin, char **dernierNomDossier, noeud **pereDuDossier){
+
+    separer_chemin(nom, chemin, dernierNomDossier);
+
+    if (chercher_fils(noeudCourant, *dernierNomDossier) != NULL)
+    {
+        erreur();
+        printf("Un fichier %s existe déjà.\n", *dernierNomDossier);
+        exit(1);
+    }
+    
+    *pereDuDossier=  trouver_noeud(*chemin);
+     if (*pereDuDossier == NULL){
+        erreur();
+        printf("Erreur : le dossier %s n'existe pas\n", *chemin);
+        exit(1);
+    }
+
+
+}
 void mkdir(const char *nom)
 {   
     char *chemin;
     char *dernierNomDossier;
-    separer_chemin(nom, &chemin, &dernierNomDossier);
-
-    if (chercher_fils(noeudCourant, dernierNomDossier) != NULL)
-    {
-        erreur();
-        printf("Attention : un dossier %s existe déjà.\n", dernierNomDossier);
-        exit(1);
-    }
-    noeud *pereDuDossier=  trouver_noeud(chemin);
-    if (pereDuDossier == NULL){
-        erreur();
-        printf(" Le dossier %s n'existe pas.\n", chemin);
-        exit(1);
-    }
+    noeud *pereDuDossier;
+    cheminAbsoluPreparartionCreation(nom, &chemin, &dernierNomDossier, &pereDuDossier);
 
     noeud *nouveauDossier;
     nouveauDossier = malloc(sizeof(noeud));
@@ -90,15 +98,12 @@ void nomInvalide(const char *nom)
 
 void touch(const char *nom)
 {
-    nomInvalide(nom);
+    char *chemin;
+    char *dernierNomFichier;
+    noeud *pereDuDossier;
+    cheminAbsoluPreparartionCreation(nom, &chemin, &dernierNomFichier, &pereDuDossier);
 
-    // création fichier
-    if (chercher_fils(noeudCourant, nom) != NULL)
-    {
-        erreur();
-        printf("Un fichier %s existe déjà.\n", nom);
-        exit(1);
-    }
+    nomInvalide(dernierNomFichier);
 
     noeud *nouveaufichier;
     nouveaufichier = malloc(sizeof(noeud));
@@ -109,13 +114,16 @@ void touch(const char *nom)
         exit(1);
     }
     nouveaufichier->est_dossier = false;
-    strncpy(nouveaufichier->nom, nom, 99);
+    strncpy(nouveaufichier->nom, dernierNomFichier, 99);
     nouveaufichier->nom[99] = '\0';
-    nouveaufichier->pere = noeudCourant;
+    nouveaufichier->pere = pereDuDossier;
     nouveaufichier->racine = noeudCourant->racine;
     nouveaufichier->fils = NULL;
 
-    ajouterFilsANoeudCourant(nouveaufichier, noeudCourant);
+    ajouterFilsANoeudCourant(nouveaufichier, pereDuDossier);
+
+    free(dernierNomFichier);
+    free(chemin);
 }
 
 void rm(const char *chem)
@@ -288,7 +296,7 @@ void verifier_sous_arbre(noeud *source, noeud *dest)
 void cp(const char *chem1, const char *chem2)
 {
     noeud *bon_chemin1 = trouver_noeud(chem1);
-    if (!bon_chemin1)
+    if (bon_chemin1 == NULL)
     {
         erreur();
         printf("Le chemin %s n'est pas correct.", chem1);
