@@ -124,7 +124,7 @@ void separer_chemin(const char *chem2, char **chemin, char **nom)
         *chemin = malloc(2*sizeof(char)); 
         
         if (*nom == NULL || *chemin == NULL) {
-            printf("erreur de malloc");
+            printf("Erreur de malloc");
             exit(1);
         }
         strcpy(*nom, copie);
@@ -134,7 +134,7 @@ void separer_chemin(const char *chem2, char **chemin, char **nom)
         *nom = malloc(strlen(slash + 1) + 1);
         if (*nom == NULL) 
         {
-            printf("erreur de malloc");
+            printf("Erreur de malloc");
             exit(1);
         }
         strcpy(*nom, slash + 1);
@@ -143,7 +143,7 @@ void separer_chemin(const char *chem2, char **chemin, char **nom)
             *chemin = malloc(2*sizeof(char));
             if (*chemin == NULL) 
             {
-                printf("erreur de malloc");
+                printf("Erreur de malloc");
                 exit(1);
             }
             strcpy(*chemin, "/");
@@ -152,7 +152,7 @@ void separer_chemin(const char *chem2, char **chemin, char **nom)
             *chemin = malloc(strlen(copie) + 1);
             if (*chemin ==NULL) 
             {
-                printf("erreur de malloc");
+                printf("Erreur de malloc");
                 exit(1);
             }
             strcpy(*chemin, copie);

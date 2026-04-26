@@ -29,11 +29,11 @@ void init()
 int main(int argc, char **argv){
     
     init();
-    mkdir("Cours");
-    cd ("Cours");
-    touch("copie");
-    mkdir("ok");
-    cd ("..");
+    //mkdir("Cours");
+    //cd ("Cours");
+    //touch("copie");
+    //mkdir("ok");
+    //cd ("..");
 
     if (argc == 1){
         ouvrirLeFichier("monfichier.txt"); 
