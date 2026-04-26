@@ -10,7 +10,7 @@
 #include "ouvrirFichier.h"
 
 void mkdir(const char *nom)
-{   
+{
     if (chercher_fils(noeudCourant, nom) != NULL)
     {
         erreur();
@@ -34,14 +34,15 @@ void mkdir(const char *nom)
     ajouterFilsANoeudCourant(nouveauDossier, noeudCourant);
 }
 
-void nomInvalide(const char *nom){
+void nomInvalide(const char *nom)
+{
     if (nom[0] == '\0')
     {
         printf("Attention le nom d'un fichier a été ajouté mais il est incorrect ! Le nom de ce fichier est vide. Changez le !!\n");
         exit(1);
     }
     if (strlen(nom) > 99)
-    {      
+    {
         printf("Attention le nom d'un fichier a été ajouté mais il est incorrect ! Le nom de ce fichier est trop long. Changez le !!\n");
         exit(1);
     }
@@ -55,7 +56,7 @@ void nomInvalide(const char *nom){
         }
         i++;
     }
-      // doublons ?
+    // doublons ?
     liste_noeud *nfils_copie = noeudCourant->fils;
 
     while (nfils_copie != NULL)
@@ -67,12 +68,12 @@ void nomInvalide(const char *nom){
         }
         nfils_copie = nfils_copie->succ;
     }
-
 }
 
 void touch(const char *nom)
-{    nomInvalide(nom);
-    
+{
+    nomInvalide(nom);
+
     // création fichier
     if (chercher_fils(noeudCourant, nom) != NULL)
     {
@@ -101,7 +102,7 @@ void rm(const char *chem)
 {
     if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
     {
-        printf("Erreur : impossible de supprimer les dossiers/fichiers indiqués.\n");
+        printf("Erreur : Impossible de supprimer les dossiers/fichiers indiqués.\n");
         exit(1);
     }
 
@@ -112,7 +113,7 @@ void rm(const char *chem)
         printf("Erreur : le chemin n'existe pas.\n");
         exit(1);
     }
-    
+
     if (est_ancetre(cible, noeudCourant))
     {
         printf("Erreur : Impossible de supprimer les dossiers/fichiers indiqués.\n");
@@ -133,22 +134,46 @@ void mv(const char *chem1, const char *chem2)
     char *parent_dest_chem;
     char *nouveau_nom;
 
-    separer_chemin(chem2, &parent_dest_chem, &nouveau_nom);
+    noeud *chem2_noeud = trouver_noeud(chem2);
 
-    noeud *dest_parent = trouver_noeud(parent_dest_chem);
+    if (chem2_noeud != NULL && chem2_noeud->est_dossier)
+    {
+        parent_dest_chem = NULL;
+        nouveau_nom = malloc(strlen(cible->nom) + 1);
+        if (nouveau_nom == NULL)
+        {
+            printf("Erreur malloc.\n");
+            exit(1);
+        }
+        strcpy(nouveau_nom, cible->nom);
+    }
+    else
+    {
+        separer_chemin(chem2, &parent_dest_chem, &nouveau_nom);
+        chem2_noeud = trouver_noeud(parent_dest_chem);
+    }
+
+    noeud *dest_parent = chem2_noeud;
+
     if (dest_parent == NULL || !dest_parent->est_dossier)
     {
         printf("Erreur : La destination n'est pas un dossier valide.\n");
+        free(parent_dest_chem);
+        free(nouveau_nom);
         exit(1);
     }
     if (est_ancetre(cible, dest_parent))
     {
         printf("Erreur : Impossible de déplacer un dossier dans lui-même ou un de ses fils.\n");
+        free(parent_dest_chem);
+        free(nouveau_nom);
         exit(1);
     }
-        if (chercher_fils(dest_parent, nouveau_nom))
+    if (chercher_fils(dest_parent, nouveau_nom))
     {
         printf("Erreur : Le dossier/fichier que vous voulez déplacer existe déja dans ce dossier.\n");
+        free(parent_dest_chem);
+        free(nouveau_nom);
         exit(1);
     }
     retirer_fils(cible->pere, cible);
@@ -163,32 +188,30 @@ void mv(const char *chem1, const char *chem2)
     free(nouveau_nom);
 }
 
-
-noeud* cp_noeud(noeud *no_a_cp, noeud *pere){
+noeud *cp_noeud(noeud *no_a_cp, noeud *pere)
+{
     noeud *copie_de_no;
-    copie_de_no= malloc(sizeof(noeud));
-    if (copie_de_no==NULL){
+    copie_de_no = malloc(sizeof(noeud));
+    if (copie_de_no == NULL)
+    {
         printf("Erreur de malloc");
         exit(1);
     }
     copie_de_no->est_dossier = no_a_cp->est_dossier;
     copie_de_no->racine = no_a_cp->racine;
     strcpy(copie_de_no->nom, no_a_cp->nom);
-    ajouterFilsANoeudCourant(copie_de_no,pere);
-    
+    ajouterFilsANoeudCourant(copie_de_no, pere);
 
-    copie_de_no->fils= NULL;
+    copie_de_no->fils = NULL;
     liste_noeud *copie_des_fils = no_a_cp->fils;
 
-    while (copie_des_fils!= NULL){
-        cp_noeud(copie_des_fils->no, copie_de_no);        
-        copie_des_fils= copie_des_fils->succ;
+    while (copie_des_fils != NULL)
+    {
+        cp_noeud(copie_des_fils->no, copie_de_no);
+        copie_des_fils = copie_des_fils->succ;
     }
     return copie_de_no;
-
-
 }
-
 
 void verifier_doublon(noeud *dest, const char *nom)
 {
@@ -206,7 +229,7 @@ void verifier_doublon(noeud *dest, const char *nom)
     }
 }
 
-noeud* verifier_destination(const char *chemin)
+noeud *verifier_destination(const char *chemin)
 {
     noeud *dest = trouver_noeud(chemin);
 
@@ -235,9 +258,11 @@ void verifier_sous_arbre(noeud *source, noeud *dest)
     }
 }
 
-void cp(const char *chem1, const char *chem2){
+void cp(const char *chem1, const char *chem2)
+{
     noeud *bon_chemin1 = trouver_noeud(chem1);
-    if (! bon_chemin1){
+    if (!bon_chemin1)
+    {
         erreur();
         printf("Le chemin %s n'est pas correct", chem1);
         exit(1);
@@ -257,5 +282,4 @@ void cp(const char *chem1, const char *chem2){
 
     free(chemin);
     free(nom);
-
 }

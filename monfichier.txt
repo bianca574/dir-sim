@@ -6,9 +6,21 @@ ls
 touch td1 
 pwd
 cd ..
-mv td1 /td2
-find td2
-cd    
-cp Cours Td/Coursbis               
-rm LangC            
+pwd
+cd
+mkdir Td2
+cp LangC/Td/td1 Td2/td2
+find Td2/td2
+mkdir Td3
+find td3
+cd Td3
+touch td3
+cd
+mv Td3/td3 LangC
+print
+mv Td3 LangC
+print
+rm LangC/Td3
+print
+mv LangC/td3 LangC/Td
 print
