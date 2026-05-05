@@ -34,23 +34,28 @@ static bool correspond(noeud *no, const OptionFind *opt) // static pour qu'elle 
     return true;
 }
 
-static void find_aux(noeud *no, const OptionFind *opt)
+static int find_aux(noeud *no, const OptionFind *opt)
 {
     if (no == NULL)
     {
-        return;
+        return 0;
     }
+    int compteur = 0;
+
     if (no != no->racine && correspond(no, opt))
     {
         pwd_noeud(no);
         printf("\n");
+        compteur++;
     }
     liste_noeud *liste = no->fils;
+
     while (liste != NULL)
     {
-        find_aux(liste->no, opt);
+        compteur += find_aux(liste->no, opt);
         liste = liste->succ;
     }
+    return compteur;
 }
 
 void find(int argc, char **argv)
@@ -120,7 +125,11 @@ void find(int argc, char **argv)
             exit(1);
         }
     }
-    find_aux(noeudCourant->racine, &opt);
+    int compteur = find_aux(noeudCourant->racine, &opt);
+    if (compteur == 0)
+    {
+        printf("Aucune expression trouvée.\n");
+    }
     if (opt.regex_active)
     {
         regfree(&opt.regex_compile);
