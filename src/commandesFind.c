@@ -27,6 +27,10 @@ static bool correspond(noeud *no, const OptionFind *opt) // static pour qu'elle 
     {
         return false;
     }
+    if (opt->regex_active && regexec(&opt->regex_compile, no->nom, 0, NULL, 0) != 0)
+    {
+        return false;
+    }
     return true;
 }
 
@@ -36,7 +40,7 @@ static void find_aux(noeud *no, const OptionFind *opt)
     {
         return;
     }
-    if (correspond(no, opt))
+    if (no != no->racine && correspond(no, opt))
     {
         pwd_noeud(no);
         printf("\n");
@@ -53,10 +57,11 @@ void find(int argc, char **argv)
 {
     if (argc == 0)
     {
-        printf("Usage : find [-d|-f] [-s sous_mot] [nom]\n");
+        printf("Usage : find [-d|-f] [-r regex] [-s sous_mot] [nom]\n");
         return;
     }
-    OptionFind opt = {false, false, false, NULL, NULL};
+    OptionFind opt;
+    memset(&opt, 0, sizeof(opt));
 
     for (int i = 0; i < argc; i++)
     {
@@ -80,6 +85,26 @@ void find(int argc, char **argv)
             opt.sous_mot = true;
             opt.sous_mot_val = argv[i];
         }
+        else if (strcmp(argv[i], "-r") == 0)
+        {
+            i++;
+            if (i >= argc)
+            {
+                erreur();
+                printf("-r attend une expression régulière.\n");
+                exit(1);
+            }
+            int ret = regcomp(&opt.regex_compile, argv[i], REG_EXTENDED);
+            if (ret != 0)
+            {
+                char errbuf[100];
+                regerror(ret, &opt.regex_compile, errbuf, sizeof(errbuf));
+                erreur();
+                printf("Expression régulière invalide : %s\n", errbuf);
+                exit(1);
+            }
+            opt.regex_active = true;
+        }
         else
         {
             opt.nom = argv[i];
@@ -88,8 +113,16 @@ void find(int argc, char **argv)
         {
             erreur();
             printf("-d et -f sont incompatibles.\n");
+            if (opt.regex_active)
+            {
+                regfree(&opt.regex_compile);
+            }
             exit(1);
         }
     }
     find_aux(noeudCourant->racine, &opt);
+    if (opt.regex_active)
+    {
+        regfree(&opt.regex_compile);
+    }
 }
