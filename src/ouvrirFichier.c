@@ -43,7 +43,7 @@ char *lireLigne(FILE *f, char *ligne)
     char *chaine_ligne = fgets(ligne, 500, f);
     if (chaine_ligne != NULL)
     {
-        //enlever les \n à la fin du mot pour éviter de faire des sauts de ligne lors d'affichage
+        // enlever les \n à la fin du mot pour éviter de faire des sauts de ligne lors d'affichage
         int i = 0;
         while (ligne[i] != '\0')
         {
@@ -134,10 +134,81 @@ void parserCommande(char *ligne, char *commande)
     {
         parserFind(ligne);
     }
+    else if (strcmp(commande, "") == 0 || strcmp(commande, "#") == 0) // les lignes vides et les commentaires sont ignorés
+    {
+    }
     else
     {
         erreur();
         printf("La commande %s n'existe pas \n", commande);
         exit(1);
+    }
+}
+
+void lancerTerminal()
+{
+    char ligne[500];
+    char commande[500];
+
+    printf("DirSim : Terminal interactif\n");
+    printf("Commandes : cd, ls, pwd, mkdir, print, touch, rm, cp, mv, find [-d|-f] [-s mot] [-r regex]\n");
+    printf("Taper 'exit' pour quitter.\n");
+
+    gestionErreur.numero_ligne = 0; // compteur des lignes initialisé à 0
+
+    while (1)
+    {
+        printf("dirsim:");
+        if (noeudCourant == noeudCourant->racine)
+        {
+            printf("/");
+        }
+        else // on reconstruit le chemin à partir de où on est
+        {
+            noeud *pile[200];
+            int n = 0;
+            noeud *tmp = noeudCourant;
+            while (tmp != tmp->racine && n < 200)
+            {
+                pile[n++] = tmp;
+                tmp = tmp->pere;
+            }
+            for (int i = n - 1; i >= 0; i--)
+            {
+                printf("/%s", pile[i]->nom);
+            }
+        }
+        printf("$ ");
+        fflush(stdout); // force l'affichage immédiat du prompt - ce qui s'affiche avant que l'utilisateur tape
+
+        if (fgets(ligne, sizeof(ligne), stdin) == NULL)
+        {
+            printf("\n");
+            break;
+        }
+        // enlever le \n final
+        int i = 0;
+        while (ligne[i] != '\0')
+        {
+            if (ligne[i] == '\n')
+            {
+                ligne[i] = '\0';
+                break;
+            }
+            i++;
+        }
+        if (strcmp(ligne, "exit") == 0)
+        {
+            printf("A bientôt!\n");
+            break;
+        }
+        if (ligne[0] == '\0')
+        {
+            continue; // pour ne pas incrémenter le compteur des lignes
+        }
+        strcpy(gestionErreur.instruction_commande, ligne);
+        gestionErreur.numero_ligne++;
+
+        parserCommande(ligne, commande);
     }
 }

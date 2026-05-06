@@ -10,11 +10,12 @@
 #include "utile.h"
 #include "parser.h"
 
-
 int ouvrirLeFichier(char *nomfichier);
+void lancerTerminal();
 void erreur();
 
-struct gestionErreur {
+struct gestionErreur
+{
     int numero_ligne;
     char instruction_commande[500];
 };
