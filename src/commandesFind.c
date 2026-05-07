@@ -27,36 +27,46 @@ static bool correspond(noeud *no, const OptionFind *opt) // static pour qu'elle 
     {
         return false;
     }
+    if (opt->regex_active && regexec(&opt->regex_compile, no->nom, 0, NULL, 0) != 0)
+    {
+        return false;
+    }
     return true;
 }
 
-static void find_aux(noeud *no, const OptionFind *opt)
+static int find_aux(noeud *no, const OptionFind *opt)
 {
     if (no == NULL)
     {
-        return;
+        return 0;
     }
-    if (correspond(no, opt))
+    int compteur = 0;
+
+    if (no != no->racine && correspond(no, opt))
     {
         pwd_noeud(no);
         printf("\n");
+        compteur++;
     }
     liste_noeud *liste = no->fils;
+
     while (liste != NULL)
     {
-        find_aux(liste->no, opt);
+        compteur += find_aux(liste->no, opt);
         liste = liste->succ;
     }
+    return compteur;
 }
 
 void find(int argc, char **argv)
 {
     if (argc == 0)
     {
-        printf("Usage : find [-d|-f] [-s sous_mot] [nom]\n");
+        printf("Usage : find [-d|-f] [-r regex] [-s sous_mot] [nom]\n");
         return;
     }
-    OptionFind opt = {false, false, false, NULL, NULL};
+    OptionFind opt;
+    memset(&opt, 0, sizeof(opt));
 
     for (int i = 0; i < argc; i++)
     {
@@ -80,6 +90,26 @@ void find(int argc, char **argv)
             opt.sous_mot = true;
             opt.sous_mot_val = argv[i];
         }
+        else if (strcmp(argv[i], "-r") == 0)
+        {
+            i++;
+            if (i >= argc)
+            {
+                erreur();
+                printf("-r attend une expression régulière.\n");
+                exit(1);
+            }
+            int ret = regcomp(&opt.regex_compile, argv[i], REG_EXTENDED);
+            if (ret != 0)
+            {
+                char errbuf[100];
+                regerror(ret, &opt.regex_compile, errbuf, sizeof(errbuf));
+                erreur();
+                printf("Expression régulière invalide : %s\n", errbuf);
+                exit(1);
+            }
+            opt.regex_active = true;
+        }
         else
         {
             opt.nom = argv[i];
@@ -88,8 +118,20 @@ void find(int argc, char **argv)
         {
             erreur();
             printf("-d et -f sont incompatibles.\n");
+            if (opt.regex_active)
+            {
+                regfree(&opt.regex_compile);
+            }
             exit(1);
         }
     }
-    find_aux(noeudCourant->racine, &opt);
+    int compteur = find_aux(noeudCourant->racine, &opt);
+    if (compteur == 0)
+    {
+        printf("Aucune expression trouvée.\n");
+    }
+    if (opt.regex_active)
+    {
+        regfree(&opt.regex_compile);
+    }
 }

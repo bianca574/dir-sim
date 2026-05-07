@@ -1,6 +1,9 @@
+// aide : https://nicolasj.developpez.com/articles/regex/
+
 #ifndef COMMANDESFIND_H
 #define COMMANDESFIND_H
 #include <stdbool.h>
+#include <regex.h>
 
 typedef struct
 {
@@ -9,6 +12,8 @@ typedef struct
     bool sous_mot;           // option -s
     const char *sous_mot_val;
     const char *nom;
+    bool regex_active; // option -r
+    regex_t regex_compile;
 } OptionFind;
 
 void find(int argc, char **argv);
