@@ -9,14 +9,17 @@
 #include "commandesAjoutSuppression.h"
 #include "ouvrirFichier.h"
 
+// utile seulement pour touch et mkdir
+
 void cheminAbsoluPreparartionCreation(const char *nom, char **chemin, char **dernierNomDossier, noeud **pereDuDossier){
 
+    //découpe le chemin pour trouver le pere après
     separer_chemin(nom, chemin, dernierNomDossier);
 
     if (chercher_fils(noeudCourant, *dernierNomDossier) != NULL)
     {
         erreur();
-        printf("Un fichier %s existe déjà.\n", *dernierNomDossier);
+        printf("%s existe déjà.\n", *dernierNomDossier);
         exit(1);
     }
     
@@ -29,6 +32,7 @@ void cheminAbsoluPreparartionCreation(const char *nom, char **chemin, char **der
 
 
 }
+// fonctionne pour chemin absolu et relatif
 void mkdir(const char *nom)
 {   
     char *chemin;
@@ -96,6 +100,7 @@ void nomInvalide(const char *nom)
     }
 }
 
+// fonctionne pour chemin absolu et relatif
 void touch(const char *nom)
 {
     char *chemin;
@@ -223,6 +228,7 @@ void mv(const char *chem1, const char *chem2)
     free(nouveau_nom);
 }
 
+// fonction auxiliaire pour copier le no_a_cp au pere
 noeud *cp_noeud(noeud *no_a_cp, noeud *pere)
 {
     noeud *copie_de_no;
@@ -277,13 +283,13 @@ noeud *verifier_destination(const char *chemin)
 
     return dest;
 }
-void verifier_sous_arbre(noeud *source, noeud *dest)
+void verifier_sous_arbre(noeud *depart, noeud *dest)
 {
     noeud *tmp = dest;
 
     while (tmp != tmp->pere)
     {
-        if (tmp == source)
+        if (tmp == depart)
         {
             erreur();
             printf("Le chemin se trouve dans le sous-arbre.\n");
@@ -295,8 +301,8 @@ void verifier_sous_arbre(noeud *source, noeud *dest)
 
 void cp(const char *chem1, const char *chem2)
 {
-    noeud *bon_chemin1 = trouver_noeud(chem1);
-    if (bon_chemin1 == NULL)
+    noeud *chemin1 = trouver_noeud(chem1);
+    if (chemin1 == NULL)
     {
         erreur();
         printf("Le chemin %s n'est pas correct.", chem1);
@@ -306,13 +312,15 @@ void cp(const char *chem1, const char *chem2)
     char *chemin;
     char *nom;
 
+    // dans nom = nom du dossier/fichier
+    // chemin = s'arrête au père
     separer_chemin(chem2, &chemin, &nom);
 
     noeud *dest = verifier_destination(chemin);
     verifier_doublon(dest, nom);
-    verifier_sous_arbre(bon_chemin1, dest);
+    verifier_sous_arbre(chemin1, dest);
 
-    noeud *copie = cp_noeud(bon_chemin1, dest);
+    noeud *copie = cp_noeud(chemin1, dest);
     strcpy(copie->nom, nom);
 
     free(chemin);

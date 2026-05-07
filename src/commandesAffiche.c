@@ -8,6 +8,7 @@
 
 #include "ouvrirFichier.h"
 
+// on peut mettre chemin absolu ou relatif ou pas d'argument (noeud courant)
 void ls(const char* nom )
 {
     liste_noeud *copie;
@@ -32,12 +33,13 @@ void ls(const char* nom )
     }
 }
 
+// fonction auxiliaire pour remonter le noeud no jusqu'au père
 void pwd_noeud(noeud *no)
 {
     if (no != no->racine)
     {
         pwd_noeud(no->pere);
-        printf("/%s", no->nom);
+        printf("/%s", no->nom); // affichage après pour que ce soit dans le bon ordre 
     }
 }
 
@@ -48,6 +50,7 @@ void pwd()
     printf("\n");
 }
 
+// afficher la ligne de "noeud"
 void print_noeud(noeud *noeud)
 {
 
@@ -58,7 +61,7 @@ void print_noeud(noeud *noeud)
     }
     else
     {
-        printf("Noeud / ");
+        printf("Noeud / "); // cas racine
     }
     if (noeud->est_dossier)
     {
@@ -121,7 +124,7 @@ void print_aux(noeud *noeud)
     }
 }
 
-// affichage qui va en profndeur le plus possible : préfixe 
+// affichage qui va en profondeur le plus possible : préfixe 
 void print()
 {
     print_aux(noeudCourant->racine);

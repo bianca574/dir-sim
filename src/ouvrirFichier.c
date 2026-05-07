@@ -23,12 +23,11 @@ int ouvrirLeFichier(char *nomfichier)
         exit(1);
     }
     gestionErreur.numero_ligne = 1;
-    char ligne[500]; // attention taille
-    char commande[500];
+    char ligne[500]; // attention taille , au plus 500 caractères en une ligne
+    char commande[500]; // pour stocker le nom de la commande de "ligne"
     if (f != NULL)
     {
-        ;
-        while (lireLigne(f, ligne) != NULL)
+        while (lireLigne(f, ligne) != NULL) // si encore une ligne de disponible
         {
             parserCommande(ligne, commande);
             gestionErreur.numero_ligne += 1;
@@ -40,55 +39,86 @@ int ouvrirLeFichier(char *nomfichier)
 
 char *lireLigne(FILE *f, char *ligne)
 {
-    char *chaine_ligne = fgets(ligne, 500, f);
+    // lire dans le fichier f la premiere ligne (ie jusqu'à \n)
+    // taille jusqu'a 499 autorisée
+    char *chaine_ligne = fgets(ligne, 500, f); 
+    
     if (chaine_ligne != NULL)
     {
-        // enlever les \n à la fin du mot pour éviter de faire des sauts de ligne lors d'affichage
         int i = 0;
+        int a_un_retour_a_la_ligne = -1;
+
+        //compter caractères et pour enlever le \n à l'indice donnée
         while (ligne[i] != '\0')
         {
-            if (ligne[i] == '\n')
-            {
-                ligne[i] = '\0';
+            if (ligne[i] == '\n'){
+                a_un_retour_a_la_ligne = 1;
+                ligne[i] ='\0';
                 break;
             }
             i++;
         }
+
+        // si la taille est >=500 , il n'y a pas de \n à cause du fget qui a pas tout lu
+        if (a_un_retour_a_la_ligne == -1 && strlen(ligne) == 499)
+        {
+                printf("Erreur à la ligne %d : %s\n", gestionErreur.numero_ligne, ligne);
+                printf("La ligne est beaucoup trop longue (>=500 caractères)\n");
+                exit(1);
+                
+        }
+    
+        // enlever les \n à la fin du mot pour éviter de faire des sauts de ligne lors d'affichage
+        ligne[i]='\0';
+
         strcpy(gestionErreur.instruction_commande, chaine_ligne);
     }
     return chaine_ligne;
 }
 
+// ligne passée en paramètre correspond à l'entièreté de la ligne du fichier
+// commande sera vide
+// Après la fin de la focntion, commande aura le nom de la commande de la ligne et dans ligne, il n'y a plus le nom de la commande
 void trouverCommande(char *ligne, char *commande)
 {
     int i = 0;
+    // on accepte espace du début
+    while (ligne[i] == ' '){
+        i++;
+    }
+
+    // on met le nom de la commande
+    int j=0;
     while (ligne[i] != ' ' && ligne[i] != '\0' && ligne[i] != '\n')
     {
         commande[i] = ligne[i];
         i++;
+        j++;
     }
-    commande[i] = '\0';
+    commande[j] = '\0'; // fin de la commande
 
+    // enlever espace entre le nom de la commande et arguments dans ligne
     if (ligne[i] == ' ')
     {
         i++;
     }
-    // enlever espace dans ligne
-
-    int j = 0;
-    while (ligne[j] != '\0')
+    
+    // dans ligne, on enleve le nom de la commande 
+    int k = 0;
+    while (ligne[i] != '\0')
     {
-        ligne[j] = ligne[i];
+        ligne[k] = ligne[i];
         i++;
-        j++;
+        k++;
     }
-    ligne[j] = '\0';
+    ligne[k] = '\0';
 }
 
 void erreur()
 {
     printf("Erreur à la ligne %d : %s\n", gestionErreur.numero_ligne, gestionErreur.instruction_commande);
 }
+
 
 void parserCommande(char *ligne, char *commande)
 {
