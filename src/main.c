@@ -26,29 +26,39 @@ void init()
     noeudCourant->fils = NULL;
 }
 
-int main(int argc, char **argv){
-    
+int main(int argc, char **argv)
+{
+
     init();
-    
-    if (argc == 1){
-        // par défaut
-        ouvrirLeFichier("fichierPDF.txt"); 
+
+    if (argc == 1)
+    {
+        lancerTerminal(); // pas d'arguments : mode terminal interactif
     }
-    else if (argc != 2){
-        printf("Erreur: le programme prend un seul argument");
+    else if (argc == 2)
+    {
+        if (strcmp(argv[1], "--terminal") == 0)
+        {
+            lancerTerminal();
+        }
+        else
+        {
+            ouvrirLeFichier(argv[1]);
+        }
+    }
+    else
+    {
+        printf("Erreur : Trop d'arguments! Usage : %s [fichier.txt | --terminal]\n", argv[0]);
         exit(1);
-    } else {
-        ouvrirLeFichier(argv[1]);
     }
-    
+
     free_noeud(noeudCourant->racine);
     return 0;
-    
 }
 int mainTest()
 {
     init();
-    
+
     mkdir("Cours");
     mkdir("Td");
     touch("edt");
@@ -65,22 +75,22 @@ int mainTest()
     cd("../Cours/ProjetC");
     mkdir("ok");
     cd("ok");
-    
-    cd ("../../..");
+
+    cd("../../..");
 
     print();
-    
+
     printf("Ls :\n");
     ls("");
 
     printf("Rm : suppression de Td\n");
     rm("Td/");
     print();
-    
+
     cd("Cours");
     printf("pwd : ( normalement dans Cours)\n");
     pwd();
-    
+
     printf("CP :\n");
     cp("ProjetC", "Anglais/nouveau");
     print();
