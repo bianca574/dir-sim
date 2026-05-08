@@ -11,6 +11,7 @@
 
 noeud *noeudCourant = NULL;
 
+// création de la racine
 void init()
 {
     noeudCourant = malloc(sizeof(noeud));

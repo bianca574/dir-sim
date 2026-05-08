@@ -11,21 +11,27 @@
 
 #include "ouvrirFichier.h"
 
+
+// aide : https://koor.fr/C/cstring/strtok.wp
+
+
 void parserLs(char *ligneSansCommande)
 {
-    //printf("%sok", ligneSansCommande);
-    
+    //strtok renvoie le "mot" jusqu'au premier espace ou \n
     char *strToken = strtok(ligneSansCommande, " \n");
 
     if (strToken != NULL)
     {
+        // on regarde s'il y a un autre argument après
         strToken = strtok(NULL, " \n");
     }
     else
     {
+        // pas d'argument
         ls("");
         return;
     }
+    // il y a un 2eme argument
     if (strToken != NULL)
     {
         erreur();
@@ -65,8 +71,6 @@ void parserPrint(char *ligneSansCommande)
         exit(1);
     }
 }
-
-// aide : https://koor.fr/C/cstring/strtok.wp
 
 void parserMkdir(char *ligneSansCommande)
 {
@@ -131,7 +135,7 @@ void parserCp(char *ligneSansCommande)
 
     if (strToken != NULL)
     {
-        chem1 = strToken;
+        chem1 = strToken; // on garde l'information
         strToken = strtok(NULL, " \n");
     }
     else

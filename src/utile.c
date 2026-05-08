@@ -7,7 +7,7 @@
 #include "utile.h"
 
 // ajout à la fin de fils
-
+// le pere du nouveauFils est à jour
 void ajouterFilsANoeudCourant(noeud *nouveauFils, noeud *pere)
 {
     if (pere->fils == NULL)
@@ -30,6 +30,7 @@ void ajouterFilsANoeudCourant(noeud *nouveauFils, noeud *pere)
     nouveauFils->pere = pere;
 }
 
+// libérer tous les noeuds
 void free_noeud(noeud *noeud)
 {
     if (noeud == NULL)
@@ -106,30 +107,35 @@ noeud *trouver_noeud(const char *chem)
     return trouve;
 }
 
-//alloue de la mémoire dans chemin etv nom
-void separer_chemin(const char *chem2, char **chemin, char **nom)
+// on a un chemin "tout_le_chemin", que l'on veit découper 
+// nom = que le dernier mot après /
+// chemin = ce qu'il y a avant
+//alloue de la mémoire dans chemin et nom
+void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
 {
-    char *copie = malloc(strlen(chem2) + 1);
+    // copie pour modifier tout_le_chemin
+    char *copie = malloc(strlen(tout_le_chemin) + 1);
     if (copie == NULL) {
         printf("Erreur de malloc");
         exit(1);
     }
 
-    strcpy(copie, chem2);
+    strcpy(copie, tout_le_chemin);
 
+    //cherche le dernier / et va pointer vers le slash
     char *slash = strrchr(copie, '/');
 
     if (slash == NULL) { // cas pour "td1"
         
         *nom = malloc(strlen(copie) + 1);
-        *chemin = malloc(2*sizeof(char)); 
+        *chemin = malloc(2*sizeof(char)); // *2 pour rajouter \0 à la fin
         
         if (*nom == NULL || *chemin == NULL) {
             printf("Erreur de malloc");
             exit(1);
         }
         strcpy(*nom, copie);
-        strcpy(*chemin, ".");
+        strcpy(*chemin, "."); // on met un . pour chemin
 
     } else {
         *nom = malloc(strlen(slash + 1) + 1);
@@ -149,7 +155,7 @@ void separer_chemin(const char *chem2, char **chemin, char **nom)
             }
             strcpy(*chemin, "/");
         } else {
-            *slash = '\0';
+            *slash = '\0'; // pour que copie s'arrête au 0 (pas la suite)
             *chemin = malloc(strlen(copie) + 1);
             if (*chemin ==NULL) 
             {
