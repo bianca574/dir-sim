@@ -13,7 +13,9 @@ make clean && make program && ./program
 ```
 
 Remarque :
-Sans paramètre, le projet ouvrira le terminal interactif
+
+Sans paramètre, le projet ouvrira le terminal interactif.
+
 Si on veut choisir :
 ```bash
 make program && ./program fichierPDF.txt
@@ -21,7 +23,7 @@ make program && ./program fichierPDF.txt
 ```bash
 make program && ./program --terminal
 ```
-Noms des fichiers tests:
+Noms des fichiers tests :
 - fichierPDF.txt (copie de celui donné dans l'énoncé du projet)
 - fichier1.txt
 - fichier2.txt
