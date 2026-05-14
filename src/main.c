@@ -49,8 +49,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        printf("Erreur : Trop d'arguments! Usage : %s [fichier.txt | --terminal]\n", argv[0]);
-        exit(1);
+        printf("Erreur : Trop d'arguments! Usage : %s [fichier.txt | --terminal]\n", argv[0]);  
     }
 
     free_noeud(noeudCourant->racine);

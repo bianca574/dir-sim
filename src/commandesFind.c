@@ -67,12 +67,12 @@ static int find_aux(noeud *no, const OptionFind *opt)
 // cherche dans tout l'arbre les noeuds correspondant aux options de recherche
 // argc récupère le nombre d'arguments tapés par l'utilisateur
 // argv récupère le tableau d'arguments qu'on parcourt pour obtenir les options de recherche et le nom qu'on veut trouver
-void find(int argc, char **argv)
+int find(int argc, char **argv)
 {
     if (argc == 0)
     {
         printf("Usage : find [-d|-f] [-r regex] [-s sous_mot] [nom]\n");
-        return;
+        return ERREUR_EXECUTION;
     }
     OptionFind opt;
     memset(&opt, 0, sizeof(opt)); // initialise toutes les options à 0
@@ -94,7 +94,7 @@ void find(int argc, char **argv)
             {
                 erreur();
                 printf("-s attend un sous-mot.\n");
-                exit(1);
+                return ERREUR_EXECUTION;
             }
             opt.sous_mot = true;
             opt.sous_mot_val = argv[i];
@@ -106,7 +106,7 @@ void find(int argc, char **argv)
             {
                 erreur();
                 printf("-r attend une expression régulière.\n");
-                exit(1);
+                return ERREUR_EXECUTION;;
             }
             int ret = regcomp(&opt.regex_compile, argv[i], REG_EXTENDED); // compile l'expression regulière
             if (ret != 0)
@@ -115,7 +115,7 @@ void find(int argc, char **argv)
                 regerror(ret, &opt.regex_compile, errbuf, sizeof(errbuf)); // récupère le message d'erreur
                 erreur();
                 printf("Expression régulière invalide : %s\n", errbuf);
-                exit(1);
+                return ERREUR_EXECUTION;;
             }
             opt.regex_active = true; // l'expression est prête à être utilisée
         }
@@ -131,7 +131,7 @@ void find(int argc, char **argv)
             {
                 regfree(&opt.regex_compile); // libère la regex compilée avant de quitter
             }
-            exit(1);
+            return ERREUR_EXECUTION;;
         }
     }
     int compteur = find_aux(noeudCourant->racine, &opt); // lance la recherche depuis la racine
@@ -143,4 +143,5 @@ void find(int argc, char **argv)
     {
         regfree(&opt.regex_compile);
     }
+    return OK;
 }

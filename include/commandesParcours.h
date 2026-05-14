@@ -8,6 +8,6 @@
 
 #include "utile.h"
 
-void cd(const char *chem);
+int cd(const char *chem);
 
 #endif
