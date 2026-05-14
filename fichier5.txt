@@ -46,6 +46,10 @@ pwd
 find -f -r [a-z]+[A-Z][a-z]+
 pwd
 find brouillon
+pwd
 find zzzrien
 find -d -s brouillon
+pwd
 find -r [[:alpha:]]*l{2}[[:alpha:]]*
+find -d -f brouillon
+find notes
