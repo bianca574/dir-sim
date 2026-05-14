@@ -8,8 +8,11 @@
 #include "commandesFind.h"
 #include "ouvrirFichier.h"
 
+// aide : https://nicolasj.developpez.com/articles/regex/
+
+// vérifie si le noeud correspond aux filtres de recherche opt
 static bool correspond(noeud *no, const OptionFind *opt) // static pour qu'elle soit visible que dans ce fichier,
-                                                         // tout le monde n'a pas besoin de la voir?
+                                                         // tout le monde n'a pas besoin de la voir
 {
     if (opt->dossiers_seulement && !no->est_dossier)
     {
@@ -21,19 +24,22 @@ static bool correspond(noeud *no, const OptionFind *opt) // static pour qu'elle 
     }
     if (opt->sous_mot && strstr(no->nom, opt->sous_mot_val) == NULL)
     {
-        return false;
+        return false; // le nom ne contient pas le sous-mot demandé
     }
     if (opt->nom != NULL && strcmp(no->nom, opt->nom) != 0)
     {
-        return false;
+        return false; // le nom ne correspond pas au nom qu'on cherche
     }
     if (opt->regex_active && regexec(&opt->regex_compile, no->nom, 0, NULL, 0) != 0)
     {
-        return false;
+        return false; // le nom ne matche pas l'expression regulière
     }
     return true;
 }
 
+// parcourt récursivement l'arbre depuis le noeud no
+// affiche le chemin de chaque noeud correspondant aux critères opt
+// retourne le nombre de résultats trouvés
 static int find_aux(noeud *no, const OptionFind *opt)
 {
     if (no == NULL)
@@ -52,12 +58,15 @@ static int find_aux(noeud *no, const OptionFind *opt)
 
     while (liste != NULL)
     {
-        compteur += find_aux(liste->no, opt);
+        compteur += find_aux(liste->no, opt); // appel récursif sur chaque fils
         liste = liste->succ;
     }
     return compteur;
 }
 
+// cherche dans tout l'arbre les noeuds correspondant aux options de recherche
+// argc récupère le nombre d'arguments tapés par l'utilisateur
+// argv récupère le tableau d'arguments qu'on parcourt pour obtenir les options de recherche et le nom qu'on veut trouver
 void find(int argc, char **argv)
 {
     if (argc == 0)
@@ -66,7 +75,7 @@ void find(int argc, char **argv)
         return;
     }
     OptionFind opt;
-    memset(&opt, 0, sizeof(opt));
+    memset(&opt, 0, sizeof(opt)); // initialise toutes les options à 0
 
     for (int i = 0; i < argc; i++)
     {
@@ -99,18 +108,18 @@ void find(int argc, char **argv)
                 printf("-r attend une expression régulière.\n");
                 exit(1);
             }
-            int ret = regcomp(&opt.regex_compile, argv[i], REG_EXTENDED);
+            int ret = regcomp(&opt.regex_compile, argv[i], REG_EXTENDED); // compile l'expression regulière
             if (ret != 0)
             {
                 char errbuf[100];
-                regerror(ret, &opt.regex_compile, errbuf, sizeof(errbuf));
+                regerror(ret, &opt.regex_compile, errbuf, sizeof(errbuf)); // récupère le message d'erreur
                 erreur();
                 printf("Expression régulière invalide : %s\n", errbuf);
                 exit(1);
             }
-            opt.regex_active = true;
+            opt.regex_active = true; // l'expression est prête à être utilisée
         }
-        else
+        else // c'est un nom exact à chercher
         {
             opt.nom = argv[i];
         }
@@ -120,12 +129,12 @@ void find(int argc, char **argv)
             printf("-d et -f sont incompatibles.\n");
             if (opt.regex_active)
             {
-                regfree(&opt.regex_compile);
+                regfree(&opt.regex_compile); // libère la regex compilée avant de quitter
             }
             exit(1);
         }
     }
-    int compteur = find_aux(noeudCourant->racine, &opt);
+    int compteur = find_aux(noeudCourant->racine, &opt); // lance la recherche depuis la racine
     if (compteur == 0)
     {
         printf("Aucune expression trouvée.\n");

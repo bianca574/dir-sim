@@ -48,6 +48,7 @@ void free_noeud(noeud *noeud)
     free(noeud);
 }
 
+// retourne le noeud correspondant au chemin chem
 noeud *trouver_noeud(const char *chem)
 {
     if (chem == NULL || strlen(chem) == 0)
@@ -59,7 +60,7 @@ noeud *trouver_noeud(const char *chem)
 
     if (copie_chem == NULL)
     {
-        printf( "Erreur d'allocation mémoire.\n");
+        printf("Erreur d'allocation mémoire.\n");
         exit(1);
     }
 
@@ -107,57 +108,64 @@ noeud *trouver_noeud(const char *chem)
     return trouve;
 }
 
-// on a un chemin "tout_le_chemin", que l'on veit découper 
+// on a un chemin "tout_le_chemin", que l'on veut découper
 // nom = que le dernier mot après /
 // chemin = ce qu'il y a avant
-//alloue de la mémoire dans chemin et nom
+// alloue de la mémoire dans chemin et nom
 void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
 {
     // copie pour modifier tout_le_chemin
     char *copie = malloc(strlen(tout_le_chemin) + 1);
-    if (copie == NULL) {
+    if (copie == NULL)
+    {
         printf("Erreur de malloc");
         exit(1);
     }
 
     strcpy(copie, tout_le_chemin);
 
-    //cherche le dernier / et va pointer vers le slash
+    // cherche le dernier / et va pointer vers le slash
     char *slash = strrchr(copie, '/');
 
-    if (slash == NULL) { // cas pour "td1"
-        
+    if (slash == NULL)
+    { // cas pour "td1"
+
         *nom = malloc(strlen(copie) + 1);
-        *chemin = malloc(2*sizeof(char)); // *2 pour rajouter \0 à la fin
-        
-        if (*nom == NULL || *chemin == NULL) {
+        *chemin = malloc(2 * sizeof(char)); // *2 pour rajouter \0 à la fin
+
+        if (*nom == NULL || *chemin == NULL)
+        {
             printf("Erreur de malloc");
             exit(1);
         }
         strcpy(*nom, copie);
         strcpy(*chemin, "."); // on met un . pour chemin
-
-    } else {
+    }
+    else
+    {
         *nom = malloc(strlen(slash + 1) + 1);
-        if (*nom == NULL) 
+        if (*nom == NULL)
         {
             printf("Erreur de malloc");
             exit(1);
         }
         strcpy(*nom, slash + 1);
 
-        if (slash == copie) { // slash au début
-            *chemin = malloc(2*sizeof(char));
-            if (*chemin == NULL) 
+        if (slash == copie)
+        { // slash au début
+            *chemin = malloc(2 * sizeof(char));
+            if (*chemin == NULL)
             {
                 printf("Erreur de malloc");
                 exit(1);
             }
             strcpy(*chemin, "/");
-        } else {
+        }
+        else
+        {
             *slash = '\0'; // pour que copie s'arrête au 0 (pas la suite)
             *chemin = malloc(strlen(copie) + 1);
-            if (*chemin ==NULL) 
+            if (*chemin == NULL)
             {
                 printf("Erreur de malloc");
                 exit(1);
@@ -204,6 +212,7 @@ noeud *chercher_fils(noeud *parent, const char *nom)
     return NULL;
 }
 
+// retire la cible de la liste des fils de parent
 void retirer_fils(noeud *parent, noeud *cible)
 {
     if (parent == NULL || parent->fils == NULL || cible == NULL)
@@ -214,7 +223,7 @@ void retirer_fils(noeud *parent, noeud *cible)
     liste_noeud *courant = parent->fils;
     liste_noeud *precedent = NULL;
 
-    while (courant != NULL && courant->no != cible)
+    while (courant != NULL && courant->no != cible) // on avance tant qu'on a pas trouvé le neoud à supprimer
     {
         precedent = courant;
         courant = courant->succ;
@@ -223,11 +232,11 @@ void retirer_fils(noeud *parent, noeud *cible)
     {
         if (precedent == NULL) // si c'est le premier fils de la liste
         {
-            parent->fils = courant->succ;
+            parent->fils = courant->succ; // le deuxième fils devient le premier
         }
         else
         {
-            precedent->succ = courant->succ;
+            precedent->succ = courant->succ; // on saute le maillon de cible
         }
         free(courant);
     }

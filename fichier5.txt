@@ -1,0 +1,47 @@
+mkdir Cours
+mkdir Cours/Maths
+mkdir Cours/Info
+mkdir Cours/Anglais
+touch Cours/Maths/dev1Maths
+touch Cours/Maths/dev2Maths
+touch Cours/Maths/exoMaths
+touch Cours/Info/tp1Info
+touch Cours/Info/tp2Info
+touch Cours/Info/projetInfo
+touch Cours/Anglais/texteAnglais
+touch Cours/Anglais/vocabAnglais
+touch notes
+print
+cd Cours
+pwd
+ls
+ls Maths
+cd Anglais
+touch brouillon
+pwd
+cd ../..
+find -s Maths
+find -s Info
+find -f -s tp
+find -d -s Cours
+find -r dev[0-9].*
+find -r .*Info.*
+find -f -r .*Anglais.*
+find -d -r .*Anglais.*
+mv Cours/Info/tp1Info Cours/Maths
+print
+find -s tp
+find -f -s Maths
+cp Cours/Maths/dev1Maths Cours/Info/copieDev1
+find -s dev
+find -f -r .*dev.*
+find -r ^dev[0-9]
+find -d -r .*
+find -r .*[0-9]$
+find -f -r [a-z]+[A-Z][a-z]+
+find brouillon
+find zzzrien
+find -d -s brouillon
+find -r [[:alpha:]]*l{2}[[:alpha:]]*
+find -d -f brouillon
+find notes

@@ -29,7 +29,7 @@ void cd(const char *chem)
     if (!cible->est_dossier)
     {
         erreur();
-        printf(" %s n'est pas un dossier.\n", chem);
+        printf("%s n'est pas un dossier.\n", chem);
         exit(1);
     }
     noeudCourant = cible;
