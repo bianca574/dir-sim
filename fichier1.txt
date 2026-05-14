@@ -12,6 +12,7 @@ cd ../..
 ls DateAnniversaire
 cd DateAnniversaire
 cp ../DateAnniversaire/Aout ../DateAnniversaire/Juillet/AoutCopie
+print
 mv Juillet/AoutCopie .
 print
 find aout

@@ -131,14 +131,17 @@ void parserCommande(char *ligne, char *commande)
     else if (strcmp(commande, "ls") == 0)
     {
         parserLs(ligne);
+        printf("\n");
     }
     else if (strcmp(commande, "print") == 0)
     {
         parserPrint(ligne);
+        printf("\n");
     }
     else if (strcmp(commande, "pwd") == 0)
     {
         parserPwd(ligne);
+        printf("\n");
     }
     else if (strcmp(commande, "mkdir") == 0)
     {
@@ -163,6 +166,7 @@ void parserCommande(char *ligne, char *commande)
     else if (strcmp(commande, "find") == 0)
     {
         parserFind(ligne);
+        printf("\n");
     }
     else if (strcmp(commande, "") == 0 || strcmp(commande, "#") == 0) // les lignes vides et les commentaires sont ignorés
     {
@@ -173,6 +177,8 @@ void parserCommande(char *ligne, char *commande)
         printf("La commande %s n'existe pas \n", commande);
         exit(1);
     }
+    
+
 }
 
 void lancerTerminal()

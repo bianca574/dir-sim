@@ -60,7 +60,7 @@ void mkdir(const char *nom)
     free(dernierNomDossier);
 }
 
-void nomInvalide(const char *nom)
+void nomIncorrect(const char *nom)
 {
     if (nom[0] == '\0')
     {
@@ -86,17 +86,17 @@ void nomInvalide(const char *nom)
         i++;
     }
     // doublons ?
-    liste_noeud *nfils_copie = noeudCourant->fils;
+    liste_noeud *noeudFilsCopie = noeudCourant->fils;
 
-    while (nfils_copie != NULL)
+    while (noeudFilsCopie != NULL)
     {
-        if (strcmp(nom, nfils_copie->no->nom) == 0)
+        if (strcmp(nom, noeudFilsCopie->no->nom) == 0)
         {
             erreur();
             printf("Attention le nom d'un fichier a été ajouté mais il est incorrect ! Le nom de ce fichier existe déja dans ce répertoire. Changez le !!\n");
             exit(1);
         }
-        nfils_copie = nfils_copie->succ;
+        noeudFilsCopie = noeudFilsCopie->succ;
     }
 }
 
@@ -108,7 +108,7 @@ void touch(const char *nom)
     noeud *pereDuDossier;
     cheminAbsoluPreparartionCreation(nom, &chemin, &dernierNomFichier, &pereDuDossier);
 
-    nomInvalide(dernierNomFichier);
+    nomIncorrect(dernierNomFichier);
 
     noeud *nouveaufichier;
     nouveaufichier = malloc(sizeof(noeud));
@@ -234,23 +234,21 @@ noeud *cp_noeud(noeud *no_a_cp, noeud *pere)
 {
     noeud *copie_de_no;
     copie_de_no = malloc(sizeof(noeud));
-    if (copie_de_no == NULL)
-    {
+    if (copie_de_no == NULL){
         printf("Erreur de malloc");
         exit(1);
     }
-    copie_de_no->est_dossier = no_a_cp->est_dossier;
-    copie_de_no->racine = no_a_cp->racine;
+    copie_de_no->est_dossier= no_a_cp->est_dossier;
+    copie_de_no->racine = no_a_cp-> racine;
     strcpy(copie_de_no->nom, no_a_cp->nom);
     ajouterFilsANoeudCourant(copie_de_no, pere);
-
+    
     copie_de_no->fils = NULL;
-    liste_noeud *copie_des_fils = no_a_cp->fils;
+    liste_noeud *copie_de_fils = no_a_cp->fils;
 
-    while (copie_des_fils != NULL)
-    {
-        cp_noeud(copie_des_fils->no, copie_de_no);
-        copie_des_fils = copie_des_fils->succ;
+    while(copie_de_fils != NULL){
+        cp_noeud(copie_de_fils->no, copie_de_no);
+        copie_de_fils = copie_de_fils->succ;
     }
     return copie_de_no;
 }
