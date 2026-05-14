@@ -34,22 +34,14 @@ find -s tp
 find -f -s Maths
 cp Cours/Maths/dev1Maths Cours/Info/copieDev1
 find -s dev
-pwd
 find -f -r .*dev.*
-pwd
 find -r ^dev[0-9]
-pwd
 find -d -r .*
-pwd
 find -r .*[0-9]$
-pwd
 find -f -r [a-z]+[A-Z][a-z]+
-pwd
 find brouillon
-pwd
 find zzzrien
 find -d -s brouillon
-pwd
 find -r [[:alpha:]]*l{2}[[:alpha:]]*
 find -d -f brouillon
 find notes
