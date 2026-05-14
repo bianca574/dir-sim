@@ -9,16 +9,19 @@
 #include "ouvrirFichier.h"
 
 // on peut mettre chemin absolu ou relatif ou pas d'argument (noeud courant)
-void ls(const char* nom )
+void ls(const char *nom)
 {
     liste_noeud *copie;
 
-    if (strcmp(nom, "") == 0){    
+    if (strcmp(nom, "") == 0)
+    {
         copie = noeudCourant->fils;
     }
-    else {
+    else
+    {
         noeud *noeudALs = trouver_noeud(nom);
-        if (noeudALs == NULL){
+        if (noeudALs == NULL)
+        {
             erreur();
             printf("Le chemin %s n'existe pas\n", nom);
             exit(1);
@@ -39,7 +42,7 @@ void pwd_noeud(noeud *no)
     if (no != no->racine)
     {
         pwd_noeud(no->pere);
-        printf("/%s", no->nom); // affichage après pour que ce soit dans le bon ordre 
+        printf("/%s", no->nom); // affichage après pour que ce soit dans le bon ordre
     }
 }
 
@@ -107,6 +110,8 @@ void print_noeud(noeud *noeud)
     }
 }
 
+// fonction auxiliaire récursive pour print
+// affiche le noeud courant puis descend dans chaque fils
 void print_aux(noeud *noeud)
 {
     if (noeud == NULL)
@@ -124,7 +129,7 @@ void print_aux(noeud *noeud)
     }
 }
 
-// affichage qui va en profondeur le plus possible : préfixe 
+// affichage qui va en profondeur le plus possible : préfixe
 void print()
 {
     print_aux(noeudCourant->racine);

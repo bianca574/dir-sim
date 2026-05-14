@@ -1,9 +1,9 @@
-// aide : https://nicolasj.developpez.com/articles/regex/
-
 #ifndef COMMANDESFIND_H
 #define COMMANDESFIND_H
 #include <stdbool.h>
 #include <regex.h>
+
+// aide : https://nicolasj.developpez.com/articles/regex/
 
 typedef struct
 {

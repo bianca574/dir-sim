@@ -11,9 +11,10 @@
 
 // utile seulement pour touch et mkdir
 
-void cheminAbsoluPreparartionCreation(const char *nom, char **chemin, char **dernierNomDossier, noeud **pereDuDossier){
+void cheminAbsoluPreparartionCreation(const char *nom, char **chemin, char **dernierNomDossier, noeud **pereDuDossier)
+{
 
-    //découpe le chemin pour trouver le pere après
+    // découpe le chemin pour trouver le pere après
     separer_chemin(nom, chemin, dernierNomDossier);
 
     if (chercher_fils(noeudCourant, *dernierNomDossier) != NULL)
@@ -22,19 +23,18 @@ void cheminAbsoluPreparartionCreation(const char *nom, char **chemin, char **der
         printf("%s existe déjà.\n", *dernierNomDossier);
         exit(1);
     }
-    
-    *pereDuDossier=  trouver_noeud(*chemin);
-     if (*pereDuDossier == NULL){
+
+    *pereDuDossier = trouver_noeud(*chemin);
+    if (*pereDuDossier == NULL)
+    {
         erreur();
         printf("Erreur : le dossier %s n'existe pas\n", *chemin);
         exit(1);
     }
-
-
 }
 // fonctionne pour chemin absolu et relatif
 void mkdir(const char *nom)
-{   
+{
     char *chemin;
     char *dernierNomDossier;
     noeud *pereDuDossier;
@@ -133,7 +133,7 @@ void touch(const char *nom)
 
 void rm(const char *chem)
 {
-    if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
+    if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0) // interdit la suppression de la racine
     {
         erreur();
         printf("Impossible de supprimer %s.\n", chem);
@@ -149,7 +149,7 @@ void rm(const char *chem)
         exit(1);
     }
 
-    if (est_ancetre(cible, noeudCourant))
+    if (est_ancetre(cible, noeudCourant)) // interdit la suppression d'un ancêtre du noeud courant
     {
         erreur();
         printf("Impossible de supprimer %s. \n", chem);
@@ -159,6 +159,7 @@ void rm(const char *chem)
     free_noeud(cible);
 }
 
+// déplace le noeud chem1 vers chem2
 void mv(const char *chem1, const char *chem2)
 {
     noeud *cible = trouver_noeud(chem1);
@@ -173,7 +174,7 @@ void mv(const char *chem1, const char *chem2)
 
     noeud *chem2_noeud = trouver_noeud(chem2);
 
-    if (chem2_noeud != NULL && chem2_noeud->est_dossier)
+    if (chem2_noeud != NULL && chem2_noeud->est_dossier) // si chem2 est un dossier existant, on déplace dedans
     {
         parent_dest_chem = NULL;
         nouveau_nom = malloc(strlen(cible->nom) + 1);
@@ -184,13 +185,13 @@ void mv(const char *chem1, const char *chem2)
         }
         strcpy(nouveau_nom, cible->nom);
     }
-    else
+    else // si la destination est un chemin vers un nouveau noeud
     {
-        separer_chemin(chem2, &parent_dest_chem, &nouveau_nom);
+        separer_chemin(chem2, &parent_dest_chem, &nouveau_nom); // on découpe pour trouver son nom (après le dernier /) et son père
         chem2_noeud = trouver_noeud(parent_dest_chem);
     }
 
-    noeud *dest_parent = chem2_noeud;
+    noeud *dest_parent = chem2_noeud; // dossier de destination
 
     if (dest_parent == NULL || !dest_parent->est_dossier)
     {
@@ -216,13 +217,13 @@ void mv(const char *chem1, const char *chem2)
         free(nouveau_nom);
         exit(1);
     }
-    retirer_fils(cible->pere, cible);
+    retirer_fils(cible->pere, cible); // détache la cible de son ancien père
 
     strcpy(cible->nom, nouveau_nom);
 
-    ajouterFilsANoeudCourant(cible, dest_parent);
+    ajouterFilsANoeudCourant(cible, dest_parent); // attache la cible au nouveau père
 
-    cible->pere = dest_parent;
+    cible->pere = dest_parent; // met à jour le lien père
 
     free(parent_dest_chem);
     free(nouveau_nom);
