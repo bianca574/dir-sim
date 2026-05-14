@@ -46,7 +46,12 @@ void pwd_noeud(noeud *no)
 void pwd()
 {
     noeud *copieNo = noeudCourant;
-    pwd_noeud(copieNo);
+    if (copieNo == noeudCourant->racine){
+        printf("/");
+    }
+    else {
+        pwd_noeud(copieNo);
+    }
     printf("\n");
 }
 
