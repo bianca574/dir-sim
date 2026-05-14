@@ -12,7 +12,7 @@ Pour réinitialiser :
 make clean && make program && ./program
 ```
 
-Remarque :
+## Remarque :
 
 Sans paramètre, le projet ouvrira le terminal interactif.
 

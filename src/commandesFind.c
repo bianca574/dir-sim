@@ -8,6 +8,8 @@
 #include "commandesFind.h"
 #include "ouvrirFichier.h"
 
+// aide : https://nicolasj.developpez.com/articles/regex/
+
 // vérifie si le noeud correspond aux filtres de recherche opt
 static bool correspond(noeud *no, const OptionFind *opt) // static pour qu'elle soit visible que dans ce fichier,
                                                          // tout le monde n'a pas besoin de la voir
