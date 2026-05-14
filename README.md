@@ -18,7 +18,7 @@ Sans paramètre, le projet ouvrira le terminal interactif.
 
 Si on veut choisir :
 ```bash
-make program && ./program fichierPDF.txt
+make program && ./program tests/fichierPDF.txt
 ```
 ```bash
 make program && ./program --terminal
