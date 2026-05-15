@@ -40,7 +40,7 @@ find -d -r .*
 find -r .*[0-9]$
 find -f -r [a-z]+[A-Z][a-z]+
 find brouillon
-find zzzrien
+find nomIntrouvable
 find -d -s brouillon
 find -r [[:alpha:]]*l{2}[[:alpha:]]*
 find -d -f brouillon
