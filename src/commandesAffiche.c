@@ -9,7 +9,7 @@
 #include "ouvrirFichier.h"
 
 // on peut mettre chemin absolu ou relatif ou pas d'argument (noeud courant)
-void ls(const char *nom)
+int ls(const char *nom)
 {
     liste_noeud *copie;
 
@@ -24,7 +24,7 @@ void ls(const char *nom)
         {
             erreur();
             printf("Le chemin %s n'existe pas\n", nom);
-            exit(1);
+            return ERREUR_EXECUTION;
         }
         copie = noeudALs->fils;
     }
@@ -34,6 +34,7 @@ void ls(const char *nom)
         printf("%s \n", copie->no->nom);
         copie = copie->succ;
     }
+    return OK;
 }
 
 // fonction auxiliaire pour remonter le noeud no jusqu'au père

@@ -10,12 +10,12 @@
 
 #include "ouvrirFichier.h"
 
-void cd(const char *chem)
+int cd(const char *chem)
 {
     if (chem == NULL || strlen(chem) == 0 || strcmp(chem, "/") == 0)
     {
         noeudCourant = noeudCourant->racine;
-        return;
+        return OK;
     }
     noeud *cible = trouver_noeud(chem);
 
@@ -23,14 +23,15 @@ void cd(const char *chem)
     {
         erreur();
         printf("Le dossier %s n'existe pas.\n", chem);
-        exit(1);
+        return ERREUR_EXECUTION;
     }
 
     if (!cible->est_dossier)
     {
         erreur();
         printf("%s n'est pas un dossier.\n", chem);
-        exit(1);
+        return ERREUR_EXECUTION;;
     }
     noeudCourant = cible;
+    return OK;
 }

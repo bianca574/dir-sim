@@ -11,7 +11,7 @@
 #include "parser.h"
 
 int ouvrirLeFichier(char *nomfichier);
-void lancerTerminal();
+int lancerTerminal();
 void erreur();
 
 struct gestionErreur

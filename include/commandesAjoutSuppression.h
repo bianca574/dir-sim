@@ -3,12 +3,11 @@
 
 #include "dataNode.h"
 
-void mkdir(const char *nom);
-void touch(const char *nom);
-void rm(const char *chem);
-void mv(const char *chem1, const char *chem2);
-
-void cp(const char *chem1, const char *chem2);
+int mkdir(const char *nom);
+int touch(const char *nom);
+int rm(const char *chem);
+int mv(const char *chem1, const char *chem2);
+int cp(const char *chem1, const char *chem2);
 
 
 #endif

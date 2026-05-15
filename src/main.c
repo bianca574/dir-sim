@@ -12,19 +12,18 @@
 noeud *noeudCourant = NULL;
 
 // création de la racine
-void init()
-{
+void init(){
+
     noeudCourant = malloc(sizeof(noeud));
-    if (noeudCourant == NULL)
-    {
-        printf("Échec d'allocation\n");
+    if (noeudCourant == NULL){
+        printf("Echec allocation");
         exit(1);
     }
-    noeudCourant->est_dossier = true;
-    noeudCourant->nom[0] = '\0';
-    noeudCourant->pere = noeudCourant;
-    noeudCourant->racine = noeudCourant;
-    noeudCourant->fils = NULL;
+    noeudCourant-> est_dossier = true;
+    noeudCourant->nom[0]='\0';
+    noeudCourant->pere=noeudCourant;
+    noeudCourant->racine=noeudCourant;
+    noeudCourant->fils=NULL;
 }
 
 int main(int argc, char **argv)
@@ -49,8 +48,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        printf("Erreur : Trop d'arguments! Usage : %s [fichier.txt | --terminal]\n", argv[0]);
-        exit(1);
+        printf("Erreur : Trop d'arguments! Usage : %s [fichier.txt | --terminal]\n", argv[0]);  
     }
 
     free_noeud(noeudCourant->racine);

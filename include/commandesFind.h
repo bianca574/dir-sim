@@ -16,6 +16,6 @@ typedef struct
     regex_t regex_compile;
 } OptionFind;
 
-void find(int argc, char **argv);
+int find(int argc, char **argv);
 
 #endif

@@ -61,7 +61,7 @@ noeud *trouver_noeud(const char *chem)
     if (copie_chem == NULL)
     {
         printf("Erreur d'allocation mémoire.\n");
-        exit(1);
+        return NULL;
     }
 
     strcpy(copie_chem, chem);
@@ -111,15 +111,17 @@ noeud *trouver_noeud(const char *chem)
 // on a un chemin "tout_le_chemin", que l'on veut découper
 // nom = que le dernier mot après /
 // chemin = ce qu'il y a avant
-// alloue de la mémoire dans chemin et nom
-void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
+// alloue de la mémoire dans *chemin et *nom
+// en cas d'erreur, *chemin et *nom ne sont pas alloués
+int separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
 {
+
     // copie pour modifier tout_le_chemin
     char *copie = malloc(strlen(tout_le_chemin) + 1);
     if (copie == NULL)
     {
         printf("Erreur de malloc");
-        exit(1);
+        return ERREUR_EXECUTION;
     }
 
     strcpy(copie, tout_le_chemin);
@@ -136,7 +138,14 @@ void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
         if (*nom == NULL || *chemin == NULL)
         {
             printf("Erreur de malloc");
-            exit(1);
+            free(copie);
+            if (*nom != NULL){
+                free(*nom);
+            }
+            if(*chemin !=NULL) {
+                free(*chemin);
+            }
+            return ERREUR_EXECUTION;
         }
         strcpy(*nom, copie);
         strcpy(*chemin, "."); // on met un . pour chemin
@@ -147,7 +156,8 @@ void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
         if (*nom == NULL)
         {
             printf("Erreur de malloc");
-            exit(1);
+            free(copie);
+            return ERREUR_EXECUTION;;
         }
         strcpy(*nom, slash + 1);
 
@@ -157,7 +167,9 @@ void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
             if (*chemin == NULL)
             {
                 printf("Erreur de malloc");
-                exit(1);
+                free(*nom);
+                free(copie);
+                return ERREUR_EXECUTION;;
             }
             strcpy(*chemin, "/");
         }
@@ -168,13 +180,16 @@ void separer_chemin(const char *tout_le_chemin, char **chemin, char **nom)
             if (*chemin == NULL)
             {
                 printf("Erreur de malloc");
-                exit(1);
+                free(*nom);
+                free(copie);
+                return ERREUR_EXECUTION;;
             }
             strcpy(*chemin, copie);
         }
     }
 
     free(copie);
+    return OK;
 }
 
 bool est_ancetre(noeud *potentiel_ancetre, noeud *depart)

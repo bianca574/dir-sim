@@ -15,7 +15,7 @@
 // aide : https://koor.fr/C/cstring/strtok.wp
 
 
-void parserLs(char *ligneSansCommande)
+int parserLs(char *ligneSansCommande)
 {
     //strtok renvoie le "mot" jusqu'au premier espace ou \n
     char *strToken = strtok(ligneSansCommande, " \n");
@@ -28,23 +28,28 @@ void parserLs(char *ligneSansCommande)
     else
     {
         // pas d'argument
-        ls("");
-        return;
+        if (ls("") != OK){
+            return ERREUR_EXECUTION;
+        }
+        return OK;
     }
     // il y a un 2eme argument
     if (strToken != NULL)
     {
         erreur();
         printf("La commande ls a trop d'argument.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
     else
     {
-        ls(ligneSansCommande);
+        if (ls(ligneSansCommande) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
+    return OK;
 }
 
-void parserPwd(char *ligneSansCommande)
+int parserPwd(char *ligneSansCommande)
 {
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n')
     {
@@ -54,11 +59,12 @@ void parserPwd(char *ligneSansCommande)
     {
         erreur();
         printf("La commande pwd ne doit prendre aucun argument. Trop d'arguments sont donnés.\n"); // à voir si on change
-        exit(1);
+        return ERREUR_PARSE;
     }
+    return OK;
 }
 
-void parserPrint(char *ligneSansCommande)
+int parserPrint(char *ligneSansCommande)
 {
     if (ligneSansCommande[0] == '\0' || ligneSansCommande[0] == '\n')
     {
@@ -68,11 +74,12 @@ void parserPrint(char *ligneSansCommande)
     {
         erreur();
         printf("La commande print ne doit prendre aucun argument. Trop d'arguments sont donnés.\n"); // à voir si on change
-        exit(1);
+        return ERREUR_PARSE;;
     }
+    return OK;
 }
 
-void parserMkdir(char *ligneSansCommande)
+int parserMkdir(char *ligneSansCommande)
 {
 
     char *strToken = strtok(ligneSansCommande, " \n");
@@ -85,22 +92,25 @@ void parserMkdir(char *ligneSansCommande)
     {
         erreur();
         printf("La commande mkdir demande un argument. Aucun n'est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     if (strToken != NULL)
     {
         erreur();
         printf("La commande mkdir a trop d'argument.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
     else
     {
-        mkdir(ligneSansCommande);
+        if (mkdir(ligneSansCommande) != OK){
+            return ERREUR_PARSE;
+        }
     }
+    return OK;
 }
 
-void parserTouch(char *ligneSansCommande)
+int parserTouch(char *ligneSansCommande)
 {
     char *strToken = strtok(ligneSansCommande, " \n");
 
@@ -112,22 +122,25 @@ void parserTouch(char *ligneSansCommande)
     {
         erreur();
         printf("La commande touch demande un argument. Aucun n'est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     if (strToken != NULL)
     {
         erreur();
         printf("La commande touch demande un argument. Trop d'arguments sont donnés.\n");
-        exit(1);
+        return ERREUR_PARSE;;
     }
     else
     {
-        touch(ligneSansCommande);
+        if (touch(ligneSansCommande) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
+    return OK;
 }
 
-void parserCp(char *ligneSansCommande)
+int parserCp(char *ligneSansCommande)
 {
     char *strToken = strtok(ligneSansCommande, " \n");
     char *chem1 = NULL;
@@ -142,7 +155,7 @@ void parserCp(char *ligneSansCommande)
     {
         erreur();
         printf("La commande cp demande deux arguments. Aucun n'est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     if (strToken != NULL)
@@ -154,28 +167,33 @@ void parserCp(char *ligneSansCommande)
     {
         erreur();
         printf("La commande cp demande deux arguments. Un seul est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     if (strToken != NULL)
     {
         erreur();
         printf("La commande cp demande deux arguments. Trop d'arguments sont donnés.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
     else
     {
-        cp(chem1, chem2);
+        if (cp(chem1, chem2) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
+    return OK;
 }
 
-void parserCd(char *ligneSansCommande)
+int parserCd(char *ligneSansCommande)
 {
     char *strToken = strtok(ligneSansCommande, " \n");
 
     if (strToken == NULL)
     {
-        cd("");
+        if (cd("") != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     else
     {
@@ -185,13 +203,16 @@ void parserCd(char *ligneSansCommande)
         {
             erreur();
             printf("La commande cd demande un argument. Trop d'arguments sont donnés.\n");
-            exit(1);
+            return ERREUR_PARSE;
         }
-        cd(ligneSansCommande);
+        if (cd(ligneSansCommande) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
+    return OK;
 }
 
-void parserRm(char *ligneSansCommande)
+int parserRm(char *ligneSansCommande)
 {
     char *strToken = strtok(ligneSansCommande, " \n");
 
@@ -203,21 +224,24 @@ void parserRm(char *ligneSansCommande)
     {
         erreur();
         printf("La commande rm demande un argument. Aucun n'est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
     if (strToken != NULL)
     {
         erreur();
         printf("La commande rm demande un argument. Trop d'arguments sont donnés.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
     else
     {
-        rm(ligneSansCommande);
+        if (rm(ligneSansCommande)!= OK){
+            return ERREUR_EXECUTION;
+        }
     }
+    return OK;
 }
 
-void parserMv(char *ligneSansCommande)
+int parserMv(char *ligneSansCommande)
 {
     char *strToken = strtok(ligneSansCommande, " \n");
     char *chem1 = NULL;
@@ -232,7 +256,7 @@ void parserMv(char *ligneSansCommande)
     {
         erreur();
         printf("La commande mv demande deux arguments. Aucun n'est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     if (strToken != NULL)
@@ -244,22 +268,25 @@ void parserMv(char *ligneSansCommande)
     {
         erreur();
         printf("La commande mv demande deux arguments. Un seul est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     if (strToken != NULL)
     {
         erreur();
         printf("La commande mv demande deux arguments. Trop d'arguments sont donnés.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
     else
     {
-        mv(chem1, chem2);
+        if (mv(chem1, chem2) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
+    return OK;
 }
 
-void parserFind(char *ligneSansCommande)
+int parserFind(char *ligneSansCommande)
 {
     int cap = 1;
     int argc = 0;
@@ -269,7 +296,7 @@ void parserFind(char *ligneSansCommande)
     {
         erreur();
         printf("Erreur d'allocation mémoire.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     char *strToken = strtok(ligneSansCommande, " \n");
@@ -279,7 +306,7 @@ void parserFind(char *ligneSansCommande)
         free(args);
         erreur();
         printf("La commande find demande au moins un argument. Aucun n'est donné.\n");
-        exit(1);
+        return ERREUR_PARSE;
     }
 
     while (strToken != NULL)
@@ -293,14 +320,18 @@ void parserFind(char *ligneSansCommande)
                 free(args);
                 erreur();
                 printf("Erreur de réallocation.\n");
-                exit(1);
+                return ERREUR_PARSE;
             }
             args = temp;
         }
         args[argc++] = strToken;
         strToken = strtok(NULL, " \n");
     }
-    find(argc, args);
+    if (find(argc, args) != OK){
+        free(args);
+        return ERREUR_EXECUTION;
+    }
 
     free(args);
+    return OK;
 }

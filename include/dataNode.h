@@ -23,8 +23,12 @@ struct liste_noeud
 typedef struct noeud noeud;
 typedef struct liste_noeud liste_noeud;
 
-// variables globales
-// extern noeud noeudRacine;
+// variable globale
 extern noeud *noeudCourant;
+
+#define OK 0
+#define ERREUR_EXECUTION 1
+#define ERREUR_PARSE 2
+#define FIN_FICHIER 3
 
 #endif
