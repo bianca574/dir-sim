@@ -170,7 +170,7 @@ int parserCommande(char *ligne, char *commande)
         err = parserMv(ligne);
     }
     else if (strcmp(commande, "find") == 0){
-        err = parserFind(commande);
+        err = parserFind(ligne);
         printf("\n");
     }
     else if (strcmp(commande, "") == 0) // on ignore les lignes vides
