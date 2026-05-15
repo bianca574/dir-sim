@@ -328,6 +328,7 @@ int parserFind(char *ligneSansCommande)
         strToken = strtok(NULL, " \n");
     }
     if (find(argc, args) != OK){
+        free(args);
         return ERREUR_EXECUTION;
     }
 
