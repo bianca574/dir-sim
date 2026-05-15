@@ -28,7 +28,9 @@ int parserLs(char *ligneSansCommande)
     else
     {
         // pas d'argument
-        ls("");
+        if (ls("") != OK){
+            return ERREUR_EXECUTION;
+        }
         return OK;
     }
     // il y a un 2eme argument
@@ -40,7 +42,9 @@ int parserLs(char *ligneSansCommande)
     }
     else
     {
-        ls(ligneSansCommande);
+        if (ls(ligneSansCommande) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     return OK;
 }
@@ -129,7 +133,9 @@ int parserTouch(char *ligneSansCommande)
     }
     else
     {
-        touch(ligneSansCommande);
+        if (touch(ligneSansCommande) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     return OK;
 }
@@ -172,7 +178,9 @@ int parserCp(char *ligneSansCommande)
     }
     else
     {
-        cp(chem1, chem2);
+        if (cp(chem1, chem2) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     return OK;
 }
@@ -183,7 +191,9 @@ int parserCd(char *ligneSansCommande)
 
     if (strToken == NULL)
     {
-        cd("");
+        if (cd("") != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     else
     {
@@ -195,7 +205,9 @@ int parserCd(char *ligneSansCommande)
             printf("La commande cd demande un argument. Trop d'arguments sont donnés.\n");
             return ERREUR_PARSE;
         }
-        cd(ligneSansCommande);
+        if (cd(ligneSansCommande) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     return OK;
 }
@@ -222,7 +234,9 @@ int parserRm(char *ligneSansCommande)
     }
     else
     {
-        rm(ligneSansCommande);
+        if (rm(ligneSansCommande)!= OK){
+            return ERREUR_EXECUTION;
+        }
     }
     return OK;
 }
@@ -265,7 +279,9 @@ int parserMv(char *ligneSansCommande)
     }
     else
     {
-        mv(chem1, chem2);
+        if (mv(chem1, chem2) != OK){
+            return ERREUR_EXECUTION;
+        }
     }
     return OK;
 }
@@ -311,7 +327,9 @@ int parserFind(char *ligneSansCommande)
         args[argc++] = strToken;
         strToken = strtok(NULL, " \n");
     }
-    find(argc, args);
+    if (find(argc, args) != OK){
+        return ERREUR_EXECUTION;
+    }
 
     free(args);
     return OK;
