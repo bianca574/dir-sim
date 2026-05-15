@@ -1,0 +1,29 @@
+# Exécutables
+main
+program
+a.out
+
+# Fichiers objets
+*.o
+
+# Bibliothèques
+*.a
+*.so
+
+# Logs et sorties
+*.log
+*.out
+
+# Fichiers Valgrind
+vgcore.*
+valgrind.log
+
+# Dossiers de build
+build/
+bin/
+
+# Fichiers éditeurs
+*~
+*.swp
+.vscode/
+.idea/

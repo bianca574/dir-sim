@@ -1,0 +1,38 @@
+stages:
+  - compile
+  - test
+  - memory
+
+image: gcc:latest
+
+compile:
+  stage: compile
+  script:
+    - make
+  artifacts:
+    paths:
+      - program
+      - src/*.o
+    expire_in: 1 day
+
+test:
+  stage: test
+  dependencies:
+    - compile
+  script:
+    - ./program
+
+memory:
+  stage: memory
+  dependencies:
+    - compile
+  script:
+    - apt-get update && apt-get install -y valgrind
+    - valgrind --leak-check=full --show-leak-kinds=all --log-file=valgrind.log --error-exitcode=1 ./program
+  artifacts:
+    paths:
+      - valgrind.log
+
+cache:
+  paths:
+    - /var/cache/apt/
