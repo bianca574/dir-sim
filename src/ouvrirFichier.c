@@ -18,21 +18,22 @@ int ouvrirLeFichier(char *nomfichier)
     FILE *f;
     f = fopen(nomfichier, "r");
     int err = OK;
-    //printf("test");
+    // printf("test");
     if (f == NULL)
     {
         printf("Echec ouverture du fichier : le fichier %s n'existe pas\n", nomfichier);
         return ERREUR_PARSE;
     }
     gestionErreur.numero_ligne = 1;
-    char ligne[500]; // attention taille , au plus 500 caractères en une ligne
+    char ligne[500];    // attention taille , au plus 500 caractères en une ligne
     char commande[500]; // pour stocker le nom de la commande de "ligne"
     if (f != NULL)
     {
         while (lireLigne(f, ligne) == OK) // si encore une ligne de disponible
         {
             err = parserCommande(ligne, commande);
-            if ( err != OK){
+            if (err != OK)
+            {
                 break;
             }
             gestionErreur.numero_ligne += 1;
@@ -46,27 +47,29 @@ int lireLigne(FILE *f, char *ligne)
 {
     // lire dans le fichier f la premiere ligne (ie jusqu'à \n)
     // taille jusqu'a 499 autorisée
-    char *chaine_ligne = fgets(ligne, 500, f); 
-    
-    if (chaine_ligne == NULL){
+    char *chaine_ligne = fgets(ligne, 500, f);
+
+    if (chaine_ligne == NULL)
+    {
         return FIN_FICHIER;
     }
     int i = 0;
     int a_un_retour_a_la_ligne = -1;
 
-    //compter caractères et pour enlever le \n à l'indice donnée
+    // compter caractères et pour enlever le \n à l'indice donnée
     while (ligne[i] != '\0')
     {
-        if (ligne[i] == '\n'){
+        if (ligne[i] == '\n')
+        {
             a_un_retour_a_la_ligne = 1;
-            ligne[i] ='\0';
+            ligne[i] = '\0';
             break;
         }
         i++;
     }
 
     // enlever les \n à la fin du mot pour éviter de faire des sauts de ligne lors d'affichage
-    ligne[i]='\0';
+    ligne[i] = '\0';
 
     strcpy(gestionErreur.instruction_commande, chaine_ligne);
 
@@ -75,7 +78,7 @@ int lireLigne(FILE *f, char *ligne)
     {
         printf("Erreur à la ligne %d : %s\n", gestionErreur.numero_ligne, ligne);
         printf("La ligne est beaucoup trop longue (>=500 caractères)\n");
-        return ERREUR_EXECUTION;     
+        return ERREUR_EXECUTION;
     }
 
     return OK;
@@ -88,12 +91,13 @@ void trouverCommande(char *ligne, char *commande)
 {
     int i = 0;
     // on accepte espace du début
-    while (ligne[i] == ' '){
+    while (ligne[i] == ' ')
+    {
         i++;
     }
 
     // on met le nom de la commande
-    int j=0;
+    int j = 0;
     while (ligne[i] != ' ' && ligne[i] != '\0' && ligne[i] != '\n')
     {
         commande[i] = ligne[i];
@@ -107,8 +111,8 @@ void trouverCommande(char *ligne, char *commande)
     {
         i++;
     }
-    
-    // dans ligne, on enleve le nom de la commande 
+
+    // dans ligne, on enleve le nom de la commande
     int k = 0;
     while (ligne[i] != '\0')
     {
@@ -124,10 +128,9 @@ void erreur()
     printf("Erreur à la ligne %d : %s\n", gestionErreur.numero_ligne, gestionErreur.instruction_commande);
 }
 
-
 int parserCommande(char *ligne, char *commande)
 {
-    int err =OK;
+    int err = OK;
     trouverCommande(ligne, commande);
 
     if (strcmp(commande, "cd") == 0)
@@ -169,7 +172,8 @@ int parserCommande(char *ligne, char *commande)
     {
         err = parserMv(ligne);
     }
-    else if (strcmp(commande, "find") == 0){
+    else if (strcmp(commande, "find") == 0)
+    {
         err = parserFind(ligne);
         printf("\n");
     }
@@ -183,14 +187,13 @@ int parserCommande(char *ligne, char *commande)
         err = ERREUR_PARSE;
     }
     return err;
-    
-
 }
 
 int lancerTerminal()
 {
     char ligne[500];
     char commande[500];
+    int err = OK;
 
     printf("DirSim : Terminal interactif\n");
     printf("Commandes : cd, ls, pwd, mkdir, print, touch, rm, cp, mv, find [-d|-f] [-s mot] [-r regex]\n");
@@ -251,7 +254,7 @@ int lancerTerminal()
         strcpy(gestionErreur.instruction_commande, ligne);
         gestionErreur.numero_ligne++;
 
-        return parserCommande(ligne, commande);
+        err = parserCommande(ligne, commande);
     }
-    return OK;
+    return err;
 }
