@@ -2,6 +2,8 @@
 
 Simulateur de système de fichiers UNIX implémenté en C.
 
+Projet réalisé en collaboration avec Agnès KOCIK dans le cadre de ma deuxième année de licence.
+
 ## Compiler et afficher le projet
 
 ```bash
